@@ -78,7 +78,6 @@ namespace RS_Tools
                 f.ShowDialog();
             });
             t.SetApartmentState(ApartmentState.STA);
-            t.Start();
 
             var f2 = new StatsWindow();
             var t2 = new Thread(() => {
@@ -86,13 +85,16 @@ namespace RS_Tools
                 f2.ShowDialog();
             });
             t2.SetApartmentState(ApartmentState.STA);
-            t2.Start();
 
             if (!extraWindows)
             {
                 Console.WriteLine("Disabling extra windows...");
-                f.Invoke(new Action(() => { f.Close(); }));
-                f2.Invoke(new Action(() => { f2.Close(); }));
+            }
+            else
+            {
+                Console.WriteLine("Starting extra windows...");
+                t.Start();
+                t2.Start();
             }
 
             while (true)
@@ -150,6 +152,17 @@ namespace RS_Tools
                 {
                     healthWarning();
                 }
+
+
+
+                // Dispose of objects
+                screenshot.Dispose();
+                bigSc.Dispose();
+                bigSc2.Dispose();
+                healthSc.Dispose();
+                healthScPostA.Dispose();
+                healthScPostB.Dispose();
+                
 
             }
 

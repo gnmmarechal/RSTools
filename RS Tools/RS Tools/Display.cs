@@ -196,8 +196,9 @@ namespace RS_Tools
                         ocrtext = page.GetText();
                     }
                 }
+                
             }
-
+            imgsource.Dispose();
             return ocrtext;
         }
 
