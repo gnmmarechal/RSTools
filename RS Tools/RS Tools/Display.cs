@@ -59,7 +59,14 @@ namespace RS_Tools
             int Y = c2.Y - c1.Y;
             Bitmap bmp = new Bitmap(X, Y, PixelFormat.Format32bppArgb);
             Graphics gr = Graphics.FromImage(bmp);
-            gr.CopyFromScreen(c1.X, c1.Y, 0, 0, bmp.Size);
+            try
+            {
+                gr.CopyFromScreen(c1.X, c1.Y, 0, 0, bmp.Size);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
             return bmp;
         }
@@ -68,6 +75,7 @@ namespace RS_Tools
         {
             Rectangle rect = new Rectangle(cropX, cropY, cropWidth, cropHeight);
             Bitmap cropped = bitmap.Clone(rect, bitmap.PixelFormat);
+            bitmap.Dispose();
             return cropped;
         }
         // Get colour at pixel
@@ -100,7 +108,7 @@ namespace RS_Tools
                     graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
                 }
             }
-
+            image.Dispose();
             return destImage;
         }
 
@@ -125,7 +133,7 @@ namespace RS_Tools
                     graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
                 }
             }
-
+            image.Dispose();
             return destImage;
         }
 
@@ -180,24 +188,20 @@ namespace RS_Tools
             }
 
             NewBitmap.UnlockBits(data);
-
+            Image.Dispose();
             return NewBitmap;
         }
 
         public static string GetText(Bitmap imgsource)
         {
             var ocrtext = string.Empty;
-            using (var engine = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default))
-            {
                 using (var img = PixConverter.ToPix(imgsource))
                 {
-                    using (var page = engine.Process(img))
+                    using (var page = Program.engine.Process(img))
                     {
                         ocrtext = page.GetText();
                     }
                 }
-                
-            }
             imgsource.Dispose();
             return ocrtext;
         }

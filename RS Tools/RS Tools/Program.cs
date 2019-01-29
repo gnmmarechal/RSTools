@@ -15,12 +15,20 @@ namespace RS_Tools
     class Program
     {
 
+        // Tesseract Engine
+        public static TesseractEngine engine = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
+
         // Config values
-        static bool extraWindows = false;
+        static bool extraWindows = true;
         static int minHealthValue = 2000;
+        static bool isRunning = true;
 
 
-        [STAThread]
+        // Variables
+
+        static string txt = "";
+
+        //[STAThread]
         static void Main(string[] args)
         {
 
@@ -77,14 +85,14 @@ namespace RS_Tools
                 
                 f.ShowDialog();
             });
-            t.SetApartmentState(ApartmentState.STA);
+            //t.SetApartmentState(ApartmentState.STA);
 
             var f2 = new StatsWindow();
             var t2 = new Thread(() => {
 
                 f2.ShowDialog();
             });
-            t2.SetApartmentState(ApartmentState.STA);
+            //t2.SetApartmentState(ApartmentState.STA);
 
             if (!extraWindows)
             {
@@ -97,16 +105,23 @@ namespace RS_Tools
                 t2.Start();
             }
 
-            while (true)
+
+            
+
+            while (isRunning)
             {
+               
                 // Chat scanner 
                 Bitmap screenshot = Display.GetAreaBitmap(c1, c2);
-                Bitmap bigSc = Display.ResizeImage(screenshot, screenshot.Width * 5, screenshot.Height * 5);
+                int[] scSize = { screenshot.Width, screenshot.Height };
+                Bitmap bigSc = Display.ResizeImage(screenshot, scSize[0] * 5, scSize[1] * 5);
                 Bitmap bigSc2 = Display.AdjustContrast(bigSc, 40);
-                Console.WriteLine("Chat BMP {0}: " + screenshot.Width + "x" + screenshot.Height, loopCount++);
+                Console.WriteLine("Chat BMP {0}: " + Convert.ToString(scSize[0]) + "x" + Convert.ToString(scSize[1]), Convert.ToString(loopCount++));
+                //GC.Collect();
+
                 if (f.Visible)
-                    f.Invoke(new Action(() => { f.picture.Image = bigSc2; }));
-                string txt = "";
+                    f.Invoke(new Action(() => { f.picture.Image = new Bitmap(bigSc2); }));
+
                 try
                 {
                     txt = Display.GetText(bigSc2);
@@ -135,10 +150,12 @@ namespace RS_Tools
                 } catch (Exception e)
                 {
                     Console.WriteLine("Invalid health values. Skipping.");
+                    GC.Collect();
                 }
 
                 Console.WriteLine("Health Scanner Values: {0}/{1}", health[0], health[1]);
-                if (f2.Visible)
+                //GC.Collect();
+               if (f2.Visible)
                     f2.Invoke(new Action(() => { f2.healthValue.Text = Convert.ToString(health[0]); }));
 
                 if (f2.Visible)
@@ -162,12 +179,15 @@ namespace RS_Tools
                 healthSc.Dispose();
                 healthScPostA.Dispose();
                 healthScPostB.Dispose();
-                
-
+                GC.Collect();
+                //Console.Clear();
+                //sleep(100);
             }
 
 
             Console.ReadLine();
+            engine.Dispose();
+
         }
 
         private static int[] parseHealth(Bitmap healthScPostB)
@@ -178,6 +198,7 @@ namespace RS_Tools
             Console.WriteLine("H String: " + textVals);
             healthVals[0] = Convert.ToInt32(t[0]);
             healthVals[1] = Convert.ToInt32(t[1]);
+            healthScPostB.Dispose();
             return healthVals;
         }
 
@@ -198,6 +219,7 @@ namespace RS_Tools
             Application.EnableVisualStyles();
             PictureForm f = new PictureForm();
             f.picture.Image = screenshot;
+            screenshot.Dispose();
             Application.Run(f);
         }
 
