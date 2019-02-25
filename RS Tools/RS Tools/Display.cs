@@ -15,7 +15,7 @@ namespace RS_Tools
     class Display
     {
 
-        public TesseractEngine eng = null;
+        public static TesseractEngine eng = null;
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {
@@ -41,6 +41,10 @@ namespace RS_Tools
         [DllImport("User32.dll")]
         static extern int SetForegroundWindow(IntPtr point);
 
+        public Display()
+        {
+            eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
+        }
         public static Bitmap GetScreenBitmap()
         {
             Bitmap bmp = new Bitmap(SystemInformation.VirtualScreen.Width,
@@ -197,7 +201,7 @@ namespace RS_Tools
             var ocrtext = string.Empty;
                 using (var img = PixConverter.ToPix(imgsource))
                 {
-                    using (var page = Program.engine.Process(img))
+                    using (var page = eng.Process(img)) // Program.engine
                     {
                         ocrtext = page.GetText();
                     }

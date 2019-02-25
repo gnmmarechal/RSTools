@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Media;
 using System.Threading;
 using Tesseract;
+
 using System.Text.RegularExpressions;
 
 namespace RS_Tools
@@ -16,7 +17,8 @@ namespace RS_Tools
     {
 
         // Tesseract Engine
-        public static TesseractEngine engine = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
+        //public static TesseractEngine engine = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
+        
 
         // Config values
         static bool extraWindows = true;
@@ -31,7 +33,7 @@ namespace RS_Tools
         //[STAThread]
         static void Main(string[] args)
         {
-
+            Display.eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
             Console.WriteLine("RS Tools by gnmmarechal");
             Display.POINT c1, c2;
             Display.POINT healthC1, healthC2;
@@ -46,7 +48,7 @@ namespace RS_Tools
             healthC2.X = 2077;
             healthC2.Y = 701;
 
-            /*Console.WriteLine("Chat Scanner Coordinates:");
+            Console.WriteLine("Chat Scanner Coordinates:");
             Console.WriteLine("C1>");
             Console.ReadKey();
             Display.GetCursorPos(out c1);
@@ -68,7 +70,7 @@ namespace RS_Tools
             Console.WriteLine("HC2>");
             Console.ReadKey();
             Display.GetCursorPos(out healthC2);
-            Console.WriteLine("HC2: {0}, {1}", healthC2.X, healthC2.Y);*/
+            Console.WriteLine("HC2: {0}, {1}", healthC2.X, healthC2.Y);
 
 
             Console.WriteLine("Starting screen capture and analysis...");
@@ -186,7 +188,8 @@ namespace RS_Tools
 
 
             Console.ReadLine();
-            engine.Dispose();
+            //engine.Dispose();
+            Display.eng.Dispose();
 
         }
 
