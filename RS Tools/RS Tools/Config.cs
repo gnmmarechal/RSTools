@@ -9,12 +9,19 @@ namespace RS_Tools
 {
     class Config
     {
-
+        public int minHealth = 2000;
         public Config(Display.POINT[] ChatScanner, Display.POINT[] HealthScanner, Display.POINT[] PrayerScanner)
         {
             this.ChatScanner = ChatScanner;
             this.HealthScanner = HealthScanner;
             this.PrayerScanner = PrayerScanner;
+        }
+        public Config(Display.POINT[] ChatScanner, Display.POINT[] HealthScanner, int MinHealth, Display.POINT[] PrayerScanner)
+        {
+            this.ChatScanner = ChatScanner;
+            this.HealthScanner = HealthScanner;
+            this.PrayerScanner = PrayerScanner;
+            this.minHealth = MinHealth;
         }
 
         public Config(String fileName)
@@ -37,6 +44,7 @@ namespace RS_Tools
                         break;
                     case 1:
                         HealthScanner = arr;
+                        minHealth = Convert.ToInt32(tempSplit[4]);
                         break;
                     case 2:
                         PrayerScanner = arr;
@@ -44,6 +52,7 @@ namespace RS_Tools
                 }
             }
         }
+
 
         public Display.POINT[] ChatScanner
         {
@@ -63,7 +72,7 @@ namespace RS_Tools
         override public string ToString()
         {
             return ChatScanner[0].X + " " + ChatScanner[0].Y + " " + ChatScanner[1].X + " " + ChatScanner[1].Y + "\n" +
-                HealthScanner[0].X + " " + HealthScanner[0].Y + " " + HealthScanner[1].X + " " + HealthScanner[1].Y + "\n" +
+                HealthScanner[0].X + " " + HealthScanner[0].Y + " " + HealthScanner[1].X + " " + HealthScanner[1].Y + " " + minHealth + "\n" +
                 PrayerScanner[0].X + " " + PrayerScanner[0].Y + " " + PrayerScanner[1].X + " " + PrayerScanner[1].Y + "";
         }
 

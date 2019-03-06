@@ -44,6 +44,19 @@ namespace RS_Tools
             c2 = cfg.ChatScanner[1];
             healthC1 = cfg.HealthScanner[0];
             healthC2 = cfg.HealthScanner[1];
+            minHealthValue = cfg.minHealth;
+
+
+            Console.WriteLine("Config Read:\n" +
+                "Chat Scanner: (" + c1.X + "," + c1.Y + ") - (" + c2.X + "," + c2.Y + ")\n" +
+                "Health Scanner: (" + healthC1.X + "," + healthC1.Y + ") - (" + healthC2.X + "," + healthC2.Y + ")\n" +
+                "Minimum Health Value: " + minHealthValue + "\n" +
+                "Prayer Scanner: (" + cfg.PrayerScanner[0].X + "," + cfg.PrayerScanner[0].Y + ") - (" + cfg.PrayerScanner[1].X + "," + cfg.PrayerScanner[1].Y + ")");
+
+
+
+            Console.WriteLine("\n===Hit ENTER to proceed===");
+            Console.ReadKey();
 
             /*
              * Bitmap bm1 = new Bitmap("this.bmp"); Bitmap bm2 = new Bitmap("test2.bmp");
