@@ -50,6 +50,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\RS Tools\Config.cs">
+      <Link>Config.cs</Link>
+    </Compile>
     <Compile Include="..\RS Tools\Display.cs">
       <Link>Display.cs</Link>
     </Compile>

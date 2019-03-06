@@ -10,6 +10,7 @@ using System.Threading;
 using Tesseract;
 
 using System.Text.RegularExpressions;
+using EyeOpen.Imaging;
 
 namespace RS_Tools
 {
@@ -21,7 +22,7 @@ namespace RS_Tools
         
 
         // Config values
-        static bool extraWindows = true;
+        static bool extraWindows = false;
         static int minHealthValue = 2000;
         static bool isRunning = true;
 
@@ -38,7 +39,30 @@ namespace RS_Tools
             Display.POINT c1, c2;
             Display.POINT healthC1, healthC2;
 
-            c1.X = 1917;
+            Config cfg = new Config("config.cfg");
+            c1 = cfg.ChatScanner[0];
+            c2 = cfg.ChatScanner[1];
+            healthC1 = cfg.HealthScanner[0];
+            healthC2 = cfg.HealthScanner[1];
+
+            /*
+             * Bitmap bm1 = new Bitmap("this.bmp"); Bitmap bm2 = new Bitmap("test2.bmp");
+            ComparableImage a = new ComparableImage(bm1);
+            ComparableImage b = new ComparableImage(bm2);
+            MessageBox.Show("" + a.CalculateSimilarity(b));
+
+            bm1 = Display.ConvertToAForgeFormat(bm1);
+            bm2 = Display.ConvertToAForgeFormat(bm2);
+
+
+            Console.ReadKey();*/
+
+            /*Display.POINT pt;
+            pt.X = 1000;
+            pt.Y = 1000;
+            Display.moveMouse(pt);*/
+
+            /*c1.X = 1917;
             c1.Y = 791;
             healthC1.X = 1999;
             healthC1.Y = 685;
@@ -70,7 +94,7 @@ namespace RS_Tools
             Console.WriteLine("HC2>");
             Console.ReadKey();
             Display.GetCursorPos(out healthC2);
-            Console.WriteLine("HC2: {0}, {1}", healthC2.X, healthC2.Y);
+            Console.WriteLine("HC2: {0}, {1}", healthC2.X, healthC2.Y);*/
 
 
             Console.WriteLine("Starting screen capture and analysis...");

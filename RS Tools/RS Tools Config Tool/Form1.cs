@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RS_Tools;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -64,8 +65,21 @@ namespace RS_Tools_Config_Tool
         {
             xValueTextBox.Text = "";
             yValueTextBox.Text = "";
-            healthXValueTextBox.Text = "";
-            healthYValueTextBox.Text = "";
+            chatScannerX2TextBox.Text = "";
+            chatScannerY2TextBox.Text = "";
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Display.POINT c1, c2;
+            c1.X = Convert.ToInt32(xValueTextBox.Text);
+            c1.Y = Convert.ToInt32(yValueTextBox.Text);
+            c2.X = Convert.ToInt32(chatScannerX2TextBox.Text);
+            c2.Y = Convert.ToInt32(chatScannerY2TextBox.Text);
+
+            Display.POINT[] chatBox = { c1, c2};
+            Config cfg = new Config(chatBox, chatBox, chatBox);
+            System.IO.File.WriteAllText("config.cfg", cfg.ToString());
         }
     }
 }

@@ -36,17 +36,21 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xValueTextBox = new System.Windows.Forms.TextBox();
             this.chatScannerPanel = new System.Windows.Forms.Panel();
+            this.chatScannerY2TextBox = new System.Windows.Forms.TextBox();
+            this.chatScannerX2TextBox = new System.Windows.Forms.TextBox();
             this.titleLabel = new System.Windows.Forms.Label();
             this.yLabel = new System.Windows.Forms.Label();
             this.xLabel = new System.Windows.Forms.Label();
             this.yValueTextBox = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.healthY2TextBox = new System.Windows.Forms.TextBox();
+            this.healthX2TextBox = new System.Windows.Forms.TextBox();
+            this.healthScannerLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.healthYValueTextBox = new System.Windows.Forms.TextBox();
-            this.healthXValueTextBox = new System.Windows.Forms.TextBox();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.healthY1TextBox = new System.Windows.Forms.TextBox();
+            this.healthX1TextBox = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -54,18 +58,11 @@
             this.currentYValTextBox = new System.Windows.Forms.TextBox();
             this.currentXValTextBox = new System.Windows.Forms.TextBox();
             this.coordinateLockTimer = new System.Windows.Forms.Timer(this.components);
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.prayerYValueTextBox = new System.Windows.Forms.TextBox();
-            this.prayerXValueTextBox = new System.Windows.Forms.TextBox();
             this.topMenuStrip.SuspendLayout();
             this.chatScannerPanel.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // topMenuStrip
@@ -91,31 +88,34 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.openToolStripMenuItem.Text = "Open";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // xValueTextBox
             // 
             this.xValueTextBox.Location = new System.Drawing.Point(40, 23);
             this.xValueTextBox.Name = "xValueTextBox";
-            this.xValueTextBox.Size = new System.Drawing.Size(88, 20);
+            this.xValueTextBox.Size = new System.Drawing.Size(52, 20);
             this.xValueTextBox.TabIndex = 1;
             // 
             // chatScannerPanel
             // 
+            this.chatScannerPanel.Controls.Add(this.chatScannerY2TextBox);
+            this.chatScannerPanel.Controls.Add(this.chatScannerX2TextBox);
             this.chatScannerPanel.Controls.Add(this.titleLabel);
             this.chatScannerPanel.Controls.Add(this.yLabel);
             this.chatScannerPanel.Controls.Add(this.xLabel);
@@ -125,6 +125,20 @@
             this.chatScannerPanel.Name = "chatScannerPanel";
             this.chatScannerPanel.Size = new System.Drawing.Size(162, 93);
             this.chatScannerPanel.TabIndex = 2;
+            // 
+            // chatScannerY2TextBox
+            // 
+            this.chatScannerY2TextBox.Location = new System.Drawing.Point(98, 59);
+            this.chatScannerY2TextBox.Name = "chatScannerY2TextBox";
+            this.chatScannerY2TextBox.Size = new System.Drawing.Size(52, 20);
+            this.chatScannerY2TextBox.TabIndex = 7;
+            // 
+            // chatScannerX2TextBox
+            // 
+            this.chatScannerX2TextBox.Location = new System.Drawing.Point(98, 23);
+            this.chatScannerX2TextBox.Name = "chatScannerX2TextBox";
+            this.chatScannerX2TextBox.Size = new System.Drawing.Size(52, 20);
+            this.chatScannerX2TextBox.TabIndex = 6;
             // 
             // titleLabel
             // 
@@ -158,30 +172,57 @@
             // 
             this.yValueTextBox.Location = new System.Drawing.Point(40, 59);
             this.yValueTextBox.Name = "yValueTextBox";
-            this.yValueTextBox.Size = new System.Drawing.Size(88, 20);
+            this.yValueTextBox.Size = new System.Drawing.Size(52, 20);
             this.yValueTextBox.TabIndex = 2;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.chatScannerPanel);
+            this.flowLayoutPanel1.Controls.Add(this.panel1);
+            this.flowLayoutPanel1.Controls.Add(this.panel2);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 24);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(744, 462);
+            this.flowLayoutPanel1.TabIndex = 7;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.healthY2TextBox);
+            this.panel1.Controls.Add(this.healthX2TextBox);
+            this.panel1.Controls.Add(this.healthScannerLabel);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.healthYValueTextBox);
-            this.panel1.Controls.Add(this.healthXValueTextBox);
+            this.panel1.Controls.Add(this.healthY1TextBox);
+            this.panel1.Controls.Add(this.healthX1TextBox);
             this.panel1.Location = new System.Drawing.Point(171, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(162, 93);
-            this.panel1.TabIndex = 6;
+            this.panel1.TabIndex = 8;
             // 
-            // label1
+            // healthY2TextBox
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(13, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(114, 16);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Health Scanner";
+            this.healthY2TextBox.Location = new System.Drawing.Point(98, 59);
+            this.healthY2TextBox.Name = "healthY2TextBox";
+            this.healthY2TextBox.Size = new System.Drawing.Size(52, 20);
+            this.healthY2TextBox.TabIndex = 7;
+            // 
+            // healthX2TextBox
+            // 
+            this.healthX2TextBox.Location = new System.Drawing.Point(98, 23);
+            this.healthX2TextBox.Name = "healthX2TextBox";
+            this.healthX2TextBox.Size = new System.Drawing.Size(52, 20);
+            this.healthX2TextBox.TabIndex = 6;
+            // 
+            // healthScannerLabel
+            // 
+            this.healthScannerLabel.AutoSize = true;
+            this.healthScannerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.healthScannerLabel.Location = new System.Drawing.Point(13, 4);
+            this.healthScannerLabel.Name = "healthScannerLabel";
+            this.healthScannerLabel.Size = new System.Drawing.Size(114, 16);
+            this.healthScannerLabel.TabIndex = 5;
+            this.healthScannerLabel.Text = "Health Scanner";
             // 
             // label2
             // 
@@ -201,31 +242,19 @@
             this.label3.TabIndex = 3;
             this.label3.Text = "X:";
             // 
-            // healthYValueTextBox
+            // healthY1TextBox
             // 
-            this.healthYValueTextBox.Location = new System.Drawing.Point(40, 59);
-            this.healthYValueTextBox.Name = "healthYValueTextBox";
-            this.healthYValueTextBox.Size = new System.Drawing.Size(88, 20);
-            this.healthYValueTextBox.TabIndex = 2;
+            this.healthY1TextBox.Location = new System.Drawing.Point(40, 59);
+            this.healthY1TextBox.Name = "healthY1TextBox";
+            this.healthY1TextBox.Size = new System.Drawing.Size(52, 20);
+            this.healthY1TextBox.TabIndex = 2;
             // 
-            // healthXValueTextBox
+            // healthX1TextBox
             // 
-            this.healthXValueTextBox.Location = new System.Drawing.Point(40, 23);
-            this.healthXValueTextBox.Name = "healthXValueTextBox";
-            this.healthXValueTextBox.Size = new System.Drawing.Size(88, 20);
-            this.healthXValueTextBox.TabIndex = 1;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Controls.Add(this.chatScannerPanel);
-            this.flowLayoutPanel1.Controls.Add(this.panel1);
-            this.flowLayoutPanel1.Controls.Add(this.panel3);
-            this.flowLayoutPanel1.Controls.Add(this.panel2);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 24);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(744, 462);
-            this.flowLayoutPanel1.TabIndex = 7;
+            this.healthX1TextBox.Location = new System.Drawing.Point(40, 23);
+            this.healthX1TextBox.Name = "healthX1TextBox";
+            this.healthX1TextBox.Size = new System.Drawing.Size(52, 20);
+            this.healthX1TextBox.TabIndex = 1;
             // 
             // panel2
             // 
@@ -234,7 +263,7 @@
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.currentYValTextBox);
             this.panel2.Controls.Add(this.currentXValTextBox);
-            this.panel2.Location = new System.Drawing.Point(507, 3);
+            this.panel2.Location = new System.Drawing.Point(339, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(162, 93);
             this.panel2.TabIndex = 7;
@@ -286,60 +315,6 @@
             this.coordinateLockTimer.Enabled = true;
             this.coordinateLockTimer.Tick += new System.EventHandler(this.coordinateLockTimer_Tick);
             // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.label7);
-            this.panel3.Controls.Add(this.label8);
-            this.panel3.Controls.Add(this.label9);
-            this.panel3.Controls.Add(this.prayerYValueTextBox);
-            this.panel3.Controls.Add(this.prayerXValueTextBox);
-            this.panel3.Location = new System.Drawing.Point(339, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(162, 93);
-            this.panel3.TabIndex = 8;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(13, 4);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(115, 16);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "Prayer Scanner";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(17, 59);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(17, 13);
-            this.label8.TabIndex = 4;
-            this.label8.Text = "Y:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(17, 26);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(17, 13);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "X:";
-            // 
-            // prayerYValueTextBox
-            // 
-            this.prayerYValueTextBox.Location = new System.Drawing.Point(40, 59);
-            this.prayerYValueTextBox.Name = "prayerYValueTextBox";
-            this.prayerYValueTextBox.Size = new System.Drawing.Size(88, 20);
-            this.prayerYValueTextBox.TabIndex = 2;
-            // 
-            // prayerXValueTextBox
-            // 
-            this.prayerXValueTextBox.Location = new System.Drawing.Point(40, 23);
-            this.prayerXValueTextBox.Name = "prayerXValueTextBox";
-            this.prayerXValueTextBox.Size = new System.Drawing.Size(88, 20);
-            this.prayerXValueTextBox.TabIndex = 1;
-            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -356,13 +331,11 @@
             this.topMenuStrip.PerformLayout();
             this.chatScannerPanel.ResumeLayout(false);
             this.chatScannerPanel.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.flowLayoutPanel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -381,12 +354,6 @@
         private System.Windows.Forms.Label yLabel;
         private System.Windows.Forms.Label xLabel;
         private System.Windows.Forms.TextBox yValueTextBox;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox healthYValueTextBox;
-        private System.Windows.Forms.TextBox healthXValueTextBox;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label4;
@@ -395,12 +362,16 @@
         private System.Windows.Forms.TextBox currentYValTextBox;
         private System.Windows.Forms.TextBox currentXValTextBox;
         private System.Windows.Forms.Timer coordinateLockTimer;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox prayerYValueTextBox;
-        private System.Windows.Forms.TextBox prayerXValueTextBox;
+        private System.Windows.Forms.TextBox chatScannerY2TextBox;
+        private System.Windows.Forms.TextBox chatScannerX2TextBox;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox healthY2TextBox;
+        private System.Windows.Forms.TextBox healthX2TextBox;
+        private System.Windows.Forms.Label healthScannerLabel;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox healthY1TextBox;
+        private System.Windows.Forms.TextBox healthX1TextBox;
     }
 }
 

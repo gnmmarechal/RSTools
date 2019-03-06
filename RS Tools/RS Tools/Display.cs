@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Tesseract;
 using System.Drawing.Drawing2D;
+using EyeOpen.Imaging;
 
 namespace RS_Tools
 {
@@ -41,9 +42,27 @@ namespace RS_Tools
         [DllImport("User32.dll")]
         static extern int SetForegroundWindow(IntPtr point);
 
+        [DllImport("User32.Dll")]
+        public static extern long SetCursorPos(int x, int y);
+        [DllImport("User32.Dll")]
+        public static extern bool ClientToScreen(IntPtr hWnd, ref POINT point);
+
         public Display()
         {
             eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
+        }
+
+
+        public static double getBitmapSimilarity(Bitmap a, Bitmap b)
+        {
+            ComparableImage a1 = new ComparableImage(a), b1 = new ComparableImage(b);
+
+            return a1.CalculateSimilarity(b1);
+        }
+        public static void moveMouse(POINT targetPoint)
+        {
+            //ClientToScreen(hWnd, ref targetPoint);
+            SetCursorPos(targetPoint.X, targetPoint.Y);
         }
         public static Bitmap GetScreenBitmap()
         {
@@ -73,6 +92,19 @@ namespace RS_Tools
             }
 
             return bmp;
+        }
+        public static Bitmap ConvertToAForgeFormat(Image image)
+        {
+            return ConvertToFormat(image, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+        }
+        public static Bitmap ConvertToFormat(Image image, PixelFormat format)
+        {
+            Bitmap copy = new Bitmap(image.Width, image.Height, format);
+            using (Graphics gr = Graphics.FromImage(copy))
+            {
+                gr.DrawImage(image, new Rectangle(0, 0, copy.Width, copy.Height));
+            }
+            return copy;
         }
 
         public static Bitmap CropBitmap(Bitmap bitmap, int cropX, int cropY, int cropWidth, int cropHeight)
