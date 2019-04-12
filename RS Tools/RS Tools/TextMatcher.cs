@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RS_Tools
 {
-    class TextMatcher
+    public class TextMatcher
     {
         string[] targetText = null;
         public TextMatcher(string[] targetText)

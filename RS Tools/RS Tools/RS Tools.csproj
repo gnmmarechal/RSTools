@@ -63,8 +63,12 @@
     <Compile Include="PictureForm.Designer.cs">
       <DependentUpon>PictureForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PluginAPI.cs" />
+    <Compile Include="PluginConstants.cs" />
+    <Compile Include="PluginLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RSToolsPlugin.cs" />
     <Compile Include="StatsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,4 +97,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Tesseract.3.3.0\build\Tesseract.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Tesseract.3.3.0\build\Tesseract.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy /b/v/y "$(SolutionDir)\ChatBoxLootAlarm\bin\Debug\ChatBoxLootAlarm.dll" "$(TargetDir)\Plugins"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

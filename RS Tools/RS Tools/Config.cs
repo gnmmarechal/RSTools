@@ -7,9 +7,15 @@ using System.Threading.Tasks;
 
 namespace RS_Tools
 {
-    class Config
+    public class Config
     {
+        public int[] gameResolution = { 1920, 1080 };
+        public int xOffset = 1920;
+        public int yOffset = 0;
         public int minHealth = 2000;
+
+
+
         public Config(Display.POINT[] ChatScanner, Display.POINT[] HealthScanner, Display.POINT[] PrayerScanner)
         {
             this.ChatScanner = ChatScanner;

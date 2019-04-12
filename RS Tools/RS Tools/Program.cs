@@ -27,10 +27,6 @@ namespace RS_Tools
         static bool isRunning = true;
 
 
-        // Variables
-
-        static string txt = "";
-
         //[STAThread]
         static void Main(string[] args)
         {
@@ -55,20 +51,18 @@ namespace RS_Tools
 
 
 
-            Console.WriteLine("\n===Hit ENTER to proceed===");
+            Console.WriteLine("\n===Hit ENTER to load all plugins===");
             Console.ReadKey();
 
 
-            Console.WriteLine("Starting screen capture and analysis...");
+            Console.WriteLine("Starting screen capture and loading all plugins...");
 
 
             int loopCount = 0;
 
-            string[] targetChatTerms = { "tasks in a row", "shines", "loot", "Return to a Slayer Master", "receive", "eceive", "You receive", "ring of fortune", "ring of wealth", "beam"};
-            TextMatcher matcher = new TextMatcher(targetChatTerms);
             Display d1 = new Display();
             
-            var f = new PictureForm();
+            /*var f = new PictureForm();
             var t = new Thread(() => {
                 
                 f.ShowDialog();
@@ -91,82 +85,89 @@ namespace RS_Tools
                 Console.WriteLine("Starting extra windows...");
                 t.Start();
                 t2.Start();
+            }*/
+
+
+
+            // Load Plugins
+            PluginLoader loader;
+            try
+            {
+                loader = new PluginLoader();
+                loader.loadPlugins();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(string.Format("Plugins couldn't be loaded: {0}", e.Message));
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
+                Environment.Exit(0);
             }
 
-
-            
-
+            foreach (RSToolsPlugin plugin in PluginLoader.Plugins)
+            {
+                plugin.Setup(cfg);
+            }
             while (isRunning)
             {
-               
-                // Chat scanner 
-                Bitmap screenshot = Display.GetAreaBitmap(c1, c2);
-                int[] scSize = { screenshot.Width, screenshot.Height };
-                Bitmap bigSc = Display.ResizeImage(screenshot, scSize[0] * 5, scSize[1] * 5);
-                Bitmap bigSc2 = Display.AdjustContrast(bigSc, 40);
-                Console.WriteLine("Chat BMP {0}: " + Convert.ToString(scSize[0]) + "x" + Convert.ToString(scSize[1]), Convert.ToString(loopCount++));
-                //GC.Collect();
 
-                if (f.Visible)
-                    f.Invoke(new Action(() => { f.picture.Image = new Bitmap(bigSc2); }));
+                // New System
+                Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
+                Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
+                Console.WriteLine("Game Area BMP {0}: " + Convert.ToString(gameAreaScreenshot.Width) + "x" + Convert.ToString(gameAreaScreenshot.Height), Convert.ToString(loopCount++));
+                completeScreenshot.Dispose();
 
-                try
+                // Run Plugins
+
+                foreach (RSToolsPlugin plugin in PluginLoader.Plugins)
                 {
-                    txt = Display.GetText(bigSc2);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
+                    plugin.Run(gameAreaScreenshot);
                 }
 
-                Console.WriteLine(txt);
-                if (matcher.certainMatch(txt))
-                {
-                    alert();
-                    Console.ReadLine();
-                }
+                gameAreaScreenshot.Dispose();
 
                 // Health scanner
-                Bitmap healthSc = Display.GetAreaBitmap(healthC1, healthC2);
-                Bitmap healthScPostA = Display.ResizeImage(healthSc, healthSc.Width * 3, healthSc.Height * 3);
-                Bitmap healthScPostB = Display.AdjustContrast(healthScPostA, 40);
-                int[] health = { -1, -1 };
+                /* Bitmap healthSc = Display.GetAreaBitmap(healthC1, healthC2);
+                 Bitmap healthScPostA = Display.ResizeImage(healthSc, healthSc.Width * 3, healthSc.Height * 3);
+                 Bitmap healthScPostB = Display.AdjustContrast(healthScPostA, 40);
+                 int[] health = { -1, -1 };
 
-                try
-                {
-                    health = parseHealth(healthScPostB);
-                } catch (Exception e)
-                {
-                    Console.WriteLine("Invalid health values. Skipping.");
-                    GC.Collect();
-                }
+                 try
+                 {
+                     health = parseHealth(healthScPostB);
+                 } catch (Exception e)
+                 {
+                     Console.WriteLine("Invalid health values. Skipping.");
+                     GC.Collect();
+                 }
 
-                Console.WriteLine("Parsed Health Scanner Values: {0}/{1}", health[0], health[1]);
-                //GC.Collect();
-               if (f2.Visible)
-                    f2.Invoke(new Action(() => { f2.healthValue.Text = Convert.ToString(health[0]); }));
-
+                 Console.WriteLine("Parsed Health Scanner Values: {0}/{1}", health[0], health[1]);
+                 //GC.Collect();
                 if (f2.Visible)
-                {
-                    if (f2.healthWarningCheckbox.Checked && health[0] < minHealthValue && health[0] != -1)
-                    {
-                        healthAlert();
-                    }
-                }
-                else if (health[0] < minHealthValue && health[0] != -1)
-                {
-                    healthWarning();
-                }
+                     f2.Invoke(new Action(() => { f2.healthValue.Text = Convert.ToString(health[0]); }));
+
+                 if (f2.Visible)
+                 {
+                     if (f2.healthWarningCheckbox.Checked && health[0] < minHealthValue && health[0] != -1)
+                     {
+                         healthAlert();
+                     }
+                 }
+                 else if (health[0] < minHealthValue && health[0] != -1)
+                 {
+                     healthWarning();
+                 }
 
 
 
-                // Dispose of objects
-                screenshot.Dispose();
-                bigSc.Dispose();
-                bigSc2.Dispose();
-                healthSc.Dispose();
-                healthScPostA.Dispose();
-                healthScPostB.Dispose();
+                 // Dispose of objects
+                 gameAreaScreenshot.Dispose();
+                 //chatAreaBitmap.Dispose();
+                 //bigSc.Dispose();
+                 //bigSc2.Dispose();
+                 healthSc.Dispose();
+                 healthScPostA.Dispose();
+                 healthScPostB.Dispose();*/
                 GC.Collect();
                 //Console.Clear();
                 //sleep(100);

@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RS Tools Config Tool", "RS 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RS Automation Tools", "RS Automation Tools\RS Automation Tools.csproj", "{507CB775-2DA9-4B03-A3CF-E2529E89E608}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSTPlugins", "RSTPlugins\RSTPlugins.csproj", "{FC3EE221-E7BF-4165-9FDF-F9AE1AADEDBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatBoxLootAlarm", "ChatBoxLootAlarm\ChatBoxLootAlarm.csproj", "{702FA138-54B3-49BF-915B-B6B09A1D93CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{507CB775-2DA9-4B03-A3CF-E2529E89E608}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{507CB775-2DA9-4B03-A3CF-E2529E89E608}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{507CB775-2DA9-4B03-A3CF-E2529E89E608}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC3EE221-E7BF-4165-9FDF-F9AE1AADEDBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC3EE221-E7BF-4165-9FDF-F9AE1AADEDBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC3EE221-E7BF-4165-9FDF-F9AE1AADEDBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC3EE221-E7BF-4165-9FDF-F9AE1AADEDBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{702FA138-54B3-49BF-915B-B6B09A1D93CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{702FA138-54B3-49BF-915B-B6B09A1D93CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{702FA138-54B3-49BF-915B-B6B09A1D93CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{702FA138-54B3-49BF-915B-B6B09A1D93CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

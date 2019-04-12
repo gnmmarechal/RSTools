@@ -13,7 +13,7 @@ using EyeOpen.Imaging;
 
 namespace RS_Tools
 {
-    class Display
+    public class Display
     {
 
         public static TesseractEngine eng = null;
@@ -75,6 +75,32 @@ namespace RS_Tools
             return bmp;
         }
 
+        /*public static Bitmap cropBitmap(Bitmap source, POINT StartPoint, POINT EndPoint)
+        {
+            Bitmap CroppedImage = source; 
+            int x = Math.Min(StartPoint.X, EndPoint.X);
+            int y = Math.Min(StartPoint.Y, EndPoint.Y);
+            int width = Math.Abs(StartPoint.X - EndPoint.X);
+            int height = Math.Abs(StartPoint.Y - EndPoint.Y);
+            Rectangle source_rect = new Rectangle(x, y, width, height);
+            Rectangle dest_rect = new Rectangle(0, 0, width, height);
+
+            // Copy that part of the image to a new bitmap.
+            Bitmap DisplayImage = new Bitmap(width, height);
+            Graphics DisplayGraphics = Graphics.FromImage(DisplayImage);
+            DisplayGraphics.DrawImage(CroppedImage, dest_rect, source_rect, GraphicsUnit.Pixel);
+
+            return CroppedImage;
+        }*/
+        public static Bitmap GetWholeDisplayBitmap()
+        {
+            POINT Zero, Limit;
+            Limit.X = SystemInformation.VirtualScreen.Width;
+            Limit.Y = SystemInformation.VirtualScreen.Height;
+            Zero.X = 0;
+            Zero.Y = 0;
+            return GetAreaBitmap(Zero, Limit);
+        }
         public static Bitmap GetAreaBitmap(POINT c1, POINT c2)
         {
             //Bitmap bmp = GetScreenBitmap();
@@ -107,6 +133,14 @@ namespace RS_Tools
             return copy;
         }
 
+        public static Bitmap CropBitmap(Bitmap bitmap, POINT cropStart, POINT cropEnd)
+        {
+            int X1 = Math.Min(cropStart.X, cropEnd.X);
+            int Y1 = Math.Min(cropStart.Y, cropEnd.Y);
+            int X2 = Math.Abs(cropStart.X - cropEnd.X);
+            int Y2 = Math.Abs(cropStart.Y - cropEnd.Y);
+            return CropBitmap(bitmap, X1, Y1, X2, Y2);
+        }
         public static Bitmap CropBitmap(Bitmap bitmap, int cropX, int cropY, int cropWidth, int cropHeight)
         {
             Rectangle rect = new Rectangle(cropX, cropY, cropWidth, cropHeight);
