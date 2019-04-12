@@ -100,7 +100,7 @@
     <Error Condition="!Exists('..\packages\Tesseract.3.3.0\build\Tesseract.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Tesseract.3.3.0\build\Tesseract.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(SolutionDir)ChatBoxLootAlarm\bin\Debug\ChatBoxLootAlarm.dll" "$(TargetDir)Plugins"
-xcopy /y "$(SolutionDir)SlayerTaskCompletionAlarm\bin\Debug\SlayerTaskCompletionAlarm.dll" "$(TargetDir)Plugins"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

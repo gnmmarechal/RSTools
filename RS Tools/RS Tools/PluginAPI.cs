@@ -42,6 +42,23 @@ namespace RS_Tools
                 Console.WriteLine(e.Message);
             }
         }
+
+        public static void WarningWriteLine(string message)
+        {
+            try
+            {
+                ConsoleColor cur = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("[" + new StackFrame(1).GetMethod().DeclaringType.Name + "] : ");
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(message);
+                Console.ForegroundColor = cur;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
         public static void alert()
         {
             playSound("Assets\\alert.wav");
@@ -52,5 +69,15 @@ namespace RS_Tools
             player.SoundLocation = soundPath;
             player.Play();
         }
+
+        //
+
+        public static string RemoveWhitespace(string input)
+        {
+            return new string(input.ToCharArray()
+                .Where(c => !Char.IsWhiteSpace(c))
+                .ToArray());
+        }
+
     }
 }

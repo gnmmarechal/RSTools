@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RSTPlugins")]
+[assembly: AssemblyTitle("LowHealthAlarm")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RSTPlugins")]
+[assembly: AssemblyProduct("LowHealthAlarm")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("fc3ee221-e7bf-4165-9fdf-f9ae1aadedbb")]
+[assembly: Guid("96a95910-13c4-4d36-9ee2-fbe99b4b682c")]
 
 // Version information for an assembly consists of the following four values:
 //

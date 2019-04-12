@@ -191,29 +191,14 @@ namespace RS_Tools
 
         }
 
-        private static int[] parseHealth(Bitmap healthScPostB)
-        {
-            int[] healthVals = new int[2];
-            string textVals = RemoveWhitespace(Display.GetText(healthScPostB));
-            string[] t = textVals.Split('/');
-            Console.WriteLine("Health String: " + textVals);
-            healthVals[0] = Convert.ToInt32(t[0]);
-            healthVals[1] = Convert.ToInt32(t[1]);
-            healthScPostB.Dispose();
-            return healthVals;
-        }
+
 
         static void sleep(int ms)
         {
             System.Threading.Thread.Sleep(ms);
         }
 
-        public static string RemoveWhitespace(string input)
-        {
-            return new string(input.ToCharArray()
-                .Where(c => !Char.IsWhiteSpace(c))
-                .ToArray());
-        }
+
 
         static void checkImage(Bitmap screenshot)
         {
