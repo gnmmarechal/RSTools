@@ -95,7 +95,14 @@ namespace RS_Tools
             {
                 loader = new PluginLoader();
                 loader.loadPlugins();
+                PluginAPI.WriteLine("Loaded plugins:");
+                foreach (RSToolsPlugin plugin in PluginLoader.Plugins)
+                {
+                    string pluginInfo = plugin.PluginName + " | " + plugin.PluginPackage + " | v" + plugin.PluginVersion;
+                    PluginAPI.WriteLine(pluginInfo);
+                }
             }
+
             catch (Exception e)
             {
                 Console.WriteLine(string.Format("Plugins couldn't be loaded: {0}", e.Message));
@@ -104,24 +111,28 @@ namespace RS_Tools
                 Environment.Exit(0);
             }
 
+            PluginAPI.WriteLine("Plugin setup started.");
             foreach (RSToolsPlugin plugin in PluginLoader.Plugins)
             {
                 plugin.Setup(cfg);
             }
+
+            PluginAPI.WriteLine("Starting plugin execution loop.");
             while (isRunning)
             {
 
                 // New System
                 Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
                 Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
-                Console.WriteLine("Game Area BMP {0}: " + Convert.ToString(gameAreaScreenshot.Width) + "x" + Convert.ToString(gameAreaScreenshot.Height), Convert.ToString(loopCount++));
+                //Console.WriteLine("Game Area BMP {0}: " + Convert.ToString(gameAreaScreenshot.Width) + "x" + Convert.ToString(gameAreaScreenshot.Height), Convert.ToString(loopCount++));
                 completeScreenshot.Dispose();
 
                 // Run Plugins
 
                 foreach (RSToolsPlugin plugin in PluginLoader.Plugins)
                 {
-                    plugin.Run(gameAreaScreenshot);
+                    // Must use Clone() or the bitmap will get corrupted (?)
+                    plugin.Run((Bitmap)gameAreaScreenshot.Clone());
                 }
 
                 gameAreaScreenshot.Dispose();

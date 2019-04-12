@@ -15,8 +15,8 @@ namespace RS_Tools
         string PluginDescription { get; }
         void Setup(String data);
         void Setup(Config cfg);
-        void Run(Bitmap gameImage, String settings);
-        void Run(Bitmap gameImage);
-        void Run(Bitmap gameImage, String settings, ref String communication);
+        void Run(in Bitmap gameImage, String settings);
+        void Run(in Bitmap gameImage);
+        void Run(in Bitmap gameImage, String settings, ref String communication);
     }
 }

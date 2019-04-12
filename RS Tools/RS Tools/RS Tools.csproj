@@ -25,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +36,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EyeOpen.Imaging">
@@ -98,6 +100,7 @@
     <Error Condition="!Exists('..\packages\Tesseract.3.3.0\build\Tesseract.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Tesseract.3.3.0\build\Tesseract.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy /b/v/y "$(SolutionDir)\ChatBoxLootAlarm\bin\Debug\ChatBoxLootAlarm.dll" "$(TargetDir)\Plugins"</PostBuildEvent>
+    <PostBuildEvent>xcopy /y "$(SolutionDir)ChatBoxLootAlarm\bin\Debug\ChatBoxLootAlarm.dll" "$(TargetDir)Plugins"
+xcopy /y "$(SolutionDir)SlayerTaskCompletionAlarm\bin\Debug\SlayerTaskCompletionAlarm.dll" "$(TargetDir)Plugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>

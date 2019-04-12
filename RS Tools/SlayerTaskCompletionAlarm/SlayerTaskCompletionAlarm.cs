@@ -6,19 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using RS_Tools;
 
-namespace ChatBoxLootAlarm
+namespace SlayerTaskCompletionAlarm
 {
-    public class ChatBoxLootAlarm : RSToolsPlugin
+    public class SlayerTaskCompletionAlarm : RSToolsPlugin
     {
         private Config localConfig;
-        private static string[] matchingTerms = {"shines", "loot", "receive", "eceive", "You receive", "ring of fortune", "ring of wealth", "beam" };
+        private static string[] matchingTerms = { "tasks in a row", "Return to a Slayer Master"};
         private TextMatcher chatMatcher;
 
         public string PluginName
         {
             get
             {
-                return "Chat Box Loot Alarm";
+                return "Chat Box Slayer Task Completion Alarm";
             }
         }
 
@@ -26,7 +26,7 @@ namespace ChatBoxLootAlarm
         {
             get
             {
-                return "Plays a sound when the loot keywords are detected in the chat box";
+                return "Plays a sound when the slayer task completion keywords are detected in the chat box";
             }
         }
 
@@ -34,7 +34,7 @@ namespace ChatBoxLootAlarm
         {
             get
             {
-                return "cboxlootalarm";
+                return "slayercompalarm";
             }
         }
 
