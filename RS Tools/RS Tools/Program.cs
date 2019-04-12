@@ -58,57 +58,6 @@ namespace RS_Tools
             Console.WriteLine("\n===Hit ENTER to proceed===");
             Console.ReadKey();
 
-            /*
-             * Bitmap bm1 = new Bitmap("this.bmp"); Bitmap bm2 = new Bitmap("test2.bmp");
-            ComparableImage a = new ComparableImage(bm1);
-            ComparableImage b = new ComparableImage(bm2);
-            MessageBox.Show("" + a.CalculateSimilarity(b));
-
-            bm1 = Display.ConvertToAForgeFormat(bm1);
-            bm2 = Display.ConvertToAForgeFormat(bm2);
-
-
-            Console.ReadKey();*/
-
-            /*Display.POINT pt;
-            pt.X = 1000;
-            pt.Y = 1000;
-            Display.moveMouse(pt);*/
-
-            /*c1.X = 1917;
-            c1.Y = 791;
-            healthC1.X = 1999;
-            healthC1.Y = 685;
-
-            c2.X = 2449;
-            c2.Y = 1045;
-            healthC2.X = 2077;
-            healthC2.Y = 701;
-
-            Console.WriteLine("Chat Scanner Coordinates:");
-            Console.WriteLine("C1>");
-            Console.ReadKey();
-            Display.GetCursorPos(out c1);
-            Console.WriteLine("C1: {0}, {1}", c1.X, c1.Y);
-
-            Console.WriteLine("C2>");
-            Console.ReadKey();
-            Display.GetCursorPos(out c2);
-            Console.WriteLine("C2: {0}, {1}", c2.X, c2.Y);
-
-
-
-            Console.WriteLine("Health Scanner Coordinates:");
-            Console.WriteLine("HC1>");
-            Console.ReadKey();
-            Display.GetCursorPos(out healthC1);
-            Console.WriteLine("HC1: {0}, {1}", healthC1.X, healthC1.Y);
-
-            Console.WriteLine("HC2>");
-            Console.ReadKey();
-            Display.GetCursorPos(out healthC2);
-            Console.WriteLine("HC2: {0}, {1}", healthC2.X, healthC2.Y);*/
-
 
             Console.WriteLine("Starting screen capture and analysis...");
 
@@ -192,7 +141,7 @@ namespace RS_Tools
                     GC.Collect();
                 }
 
-                Console.WriteLine("Health Scanner Values: {0}/{1}", health[0], health[1]);
+                Console.WriteLine("Parsed Health Scanner Values: {0}/{1}", health[0], health[1]);
                 //GC.Collect();
                if (f2.Visible)
                     f2.Invoke(new Action(() => { f2.healthValue.Text = Convert.ToString(health[0]); }));
@@ -235,7 +184,7 @@ namespace RS_Tools
             int[] healthVals = new int[2];
             string textVals = RemoveWhitespace(Display.GetText(healthScPostB));
             string[] t = textVals.Split('/');
-            Console.WriteLine("H String: " + textVals);
+            Console.WriteLine("Health String: " + textVals);
             healthVals[0] = Convert.ToInt32(t[0]);
             healthVals[1] = Convert.ToInt32(t[1]);
             healthScPostB.Dispose();

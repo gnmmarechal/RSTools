@@ -78,7 +78,15 @@ namespace RS_Tools_Config_Tool
             c2.Y = Convert.ToInt32(chatScannerY2TextBox.Text);
 
             Display.POINT[] chatBox = { c1, c2};
-            Config cfg = new Config(chatBox, chatBox, chatBox);
+
+            Display.POINT c3, c4;
+            c3.X = Convert.ToInt32(healthX1TextBox.Text);
+            c3.Y = Convert.ToInt32(healthY1TextBox.Text);
+            c4.X = Convert.ToInt32(healthX2TextBox.Text);
+            c4.Y = Convert.ToInt32(healthY2TextBox.Text);
+
+            Display.POINT[] healthBox = { c3, c4 };
+            Config cfg = new Config(chatBox, healthBox, healthBox);
             System.IO.File.WriteAllText("config.cfg", cfg.ToString());
         }
     }
