@@ -72,6 +72,21 @@ namespace RS_Tools
 
         //
 
+        public static Display.POINT[] GetRectangle(int x1, int y1, int x2, int y2)
+        {
+            Display.POINT p1 = GetPoint(x1, y1);
+            Display.POINT p2 = GetPoint(x2, y2);
+            Display.POINT[] pArray = { p1, p2 };
+
+            return pArray;
+        }
+        public static Display.POINT GetPoint(int x, int y)
+        {
+            Display.POINT p;
+            p.X = x;
+            p.Y = y;
+            return p;
+        }
         public static string RemoveWhitespace(string input)
         {
             return new string(input.ToCharArray()

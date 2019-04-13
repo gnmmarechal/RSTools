@@ -22,7 +22,6 @@ namespace RS_Tools
         
 
         // Config values
-        static int minHealthValue = 2000;
         static bool isRunning = true;
 
 
@@ -138,54 +137,8 @@ namespace RS_Tools
             Application.EnableVisualStyles();
             PictureForm f = new PictureForm();
             f.picture.Image = screenshot;
-            screenshot.Dispose();
+            //screenshot.Dispose();
             Application.Run(f);
-        }
-
-        static void alert()
-        {
-            ConsoleColor cur = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("MATCH FOUND!");
-            for (int i = 0; i < 10; i++)
-            {
-                SystemSounds.Beep.Play();
-                sleep(600);
-                SystemSounds.Beep.Play();
-                sleep(600);
-                SystemSounds.Beep.Play();
-            }
-            Console.ForegroundColor = cur;
-        }
-
-        static void healthAlert()
-        {
-            
-            for (int i = 0; i < 3; i++)
-            {
-                SystemSounds.Beep.Play();
-                sleep(600);
-                SystemSounds.Beep.Play();
-                sleep(600);
-                SystemSounds.Beep.Play();
-            }
-            MessageBox.Show("Warning! Low health!");
-        }
-
-        static void healthWarning()
-        {
-            ConsoleColor cur = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("WARNING: LOW HEALTH!");
-            for (int i = 0; i < 2; i++)
-            {
-                SystemSounds.Beep.Play();
-                sleep(600);
-                SystemSounds.Beep.Play();
-                sleep(600);
-                SystemSounds.Beep.Play();
-            }
-            Console.ForegroundColor = cur;
         }
     }
 }

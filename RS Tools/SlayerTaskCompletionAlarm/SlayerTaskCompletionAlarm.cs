@@ -53,16 +53,21 @@ namespace SlayerTaskCompletionAlarm
 
         public void Run(in System.Drawing.Bitmap gameImage)
         {
+            // Parse Settings
+            String settings = localConfig.GetSettings();
+            String[] set = settings.Split(' ');
+            Display.POINT[] ChatScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
+
             // Offset correction
-            if (localConfig.ChatScanner[0].X >= localConfig.xOffset)
-                localConfig.ChatScanner[0].X -= localConfig.xOffset;
-            if (localConfig.ChatScanner[0].Y >= localConfig.yOffset)
-                localConfig.ChatScanner[0].Y -= localConfig.yOffset;
-            if (localConfig.ChatScanner[1].X >= localConfig.xOffset)
-                localConfig.ChatScanner[1].X -= localConfig.xOffset;
-            if (localConfig.ChatScanner[1].Y >= localConfig.yOffset)
-                localConfig.ChatScanner[1].Y -= localConfig.yOffset;
-            Bitmap chatAreaBitmap = Display.CropBitmap(gameImage, localConfig.ChatScanner[0], localConfig.ChatScanner[1]);
+            if (ChatScanner[0].X >= localConfig.xOffset)
+                ChatScanner[0].X -= localConfig.xOffset;
+            if (ChatScanner[0].Y >= localConfig.yOffset)
+                ChatScanner[0].Y -= localConfig.yOffset;
+            if (ChatScanner[1].X >= localConfig.xOffset)
+                ChatScanner[1].X -= localConfig.xOffset;
+            if (ChatScanner[1].Y >= localConfig.yOffset)
+                ChatScanner[1].Y -= localConfig.yOffset;
+            Bitmap chatAreaBitmap = Display.CropBitmap(gameImage, ChatScanner[0], ChatScanner[1]);
             int w = chatAreaBitmap.Width;
             int h = chatAreaBitmap.Height;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,74 +13,38 @@ namespace RS_Tools
         public int[] gameResolution = { 1920, 1080 };
         public int xOffset = 1920;
         public int yOffset = 0;
-        public int minHealth = 2000;
 
-
-
-        public Config(Display.POINT[] ChatScanner, Display.POINT[] HealthScanner, Display.POINT[] PrayerScanner)
-        {
-            this.ChatScanner = ChatScanner;
-            this.HealthScanner = HealthScanner;
-            this.PrayerScanner = PrayerScanner;
-        }
-        public Config(Display.POINT[] ChatScanner, Display.POINT[] HealthScanner, int MinHealth, Display.POINT[] PrayerScanner)
-        {
-            this.ChatScanner = ChatScanner;
-            this.HealthScanner = HealthScanner;
-            this.PrayerScanner = PrayerScanner;
-            this.minHealth = MinHealth;
-        }
+        private Dictionary<String, String> pluginSettings;
 
         public Config(String fileName)
         {
             List<String> fileContents = new List<String>( File.ReadAllLines(fileName));
-            Display.POINT tempVar, tempVar2;
-            for (int i = 0; i < fileContents.Count; i++)
+            pluginSettings = new Dictionary<string, string>();
+
+
+            foreach (String line in fileContents)
             {
-                String[] tempSplit = fileContents.ElementAt(i).Split(' ');
-                tempVar.X = Convert.ToInt32(tempSplit[0]);
-                tempVar.Y = Convert.ToInt32(tempSplit[1]);
-                tempVar2.X = Convert.ToInt32(tempSplit[2]);
-                tempVar2.Y = Convert.ToInt32(tempSplit[3]);
-                Display.POINT[] arr = { tempVar, tempVar2 };
-
-                switch(i)
+                String[] splitLine = line.Split(' ');
+                String reLine = "";
+                for (int i = 1; i < splitLine.Length; i++)
                 {
-                    case 0:
-                        ChatScanner = arr;
-                        break;
-                    case 1:
-                        HealthScanner = arr;
-                        minHealth = Convert.ToInt32(tempSplit[4]);
-                        break;
-                    case 2:
-                        PrayerScanner = arr;
-                        break;
+                    reLine += splitLine[i] + " ";
                 }
+                reLine.Substring(reLine.Length - 1);
+                
+                pluginSettings.Add(splitLine[0], reLine);
+                PluginAPI.WriteLine("Found config: " + splitLine[0] + " - " + reLine);
+
             }
+
         }
 
-
-        public Display.POINT[] ChatScanner
+        public String GetSettings()
         {
-            get; set;
-        }
+            String pluginName = new StackFrame(1).GetMethod().DeclaringType.Name;
+            String str = pluginSettings[pluginName];
 
-        public Display.POINT[] HealthScanner
-        {
-            get; set;
-        }
-
-        public Display.POINT[] PrayerScanner
-        {
-            get; set;
-        }
-
-        override public string ToString()
-        {
-            return ChatScanner[0].X + " " + ChatScanner[0].Y + " " + ChatScanner[1].X + " " + ChatScanner[1].Y + "\n" +
-                HealthScanner[0].X + " " + HealthScanner[0].Y + " " + HealthScanner[1].X + " " + HealthScanner[1].Y + " " + minHealth + "\n" +
-                PrayerScanner[0].X + " " + PrayerScanner[0].Y + " " + PrayerScanner[1].X + " " + PrayerScanner[1].Y + "";
+            return str;
         }
 
     }

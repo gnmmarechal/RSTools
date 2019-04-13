@@ -51,16 +51,21 @@ namespace LowHealthAlarm
 
         public void Run(in System.Drawing.Bitmap gameImage)
         {
+            // Parse Settings
+            String settings = localConfig.GetSettings();
+            String[] set = settings.Split(' ');
+            Display.POINT[] HealthScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
+            int minHealth = Convert.ToInt32(set[4]);
             // Offset correction
-            if (localConfig.HealthScanner[0].X >= localConfig.xOffset)
-                localConfig.HealthScanner[0].X -= localConfig.xOffset;
-            if (localConfig.HealthScanner[0].Y >= localConfig.yOffset)
-                localConfig.HealthScanner[0].Y -= localConfig.yOffset;
-            if (localConfig.HealthScanner[1].X >= localConfig.xOffset)
-                localConfig.HealthScanner[1].X -= localConfig.xOffset;
-            if (localConfig.HealthScanner[1].Y >= localConfig.yOffset)
-                localConfig.HealthScanner[1].Y -= localConfig.yOffset;
-            Bitmap chatAreaBitmap = Display.CropBitmap(gameImage, localConfig.HealthScanner[0], localConfig.HealthScanner[1]);
+            if (HealthScanner[0].X >= localConfig.xOffset)
+                HealthScanner[0].X -= localConfig.xOffset;
+            if (HealthScanner[0].Y >= localConfig.yOffset)
+                HealthScanner[0].Y -= localConfig.yOffset;
+            if (HealthScanner[1].X >= localConfig.xOffset)
+                HealthScanner[1].X -= localConfig.xOffset;
+            if (HealthScanner[1].Y >= localConfig.yOffset)
+                HealthScanner[1].Y -= localConfig.yOffset;
+            Bitmap chatAreaBitmap = Display.CropBitmap(gameImage, HealthScanner[0], HealthScanner[1]);
             int w = chatAreaBitmap.Width;
             int h = chatAreaBitmap.Height;
 
@@ -81,7 +86,7 @@ namespace LowHealthAlarm
                 }
             }
 
-            if (health[0] < localConfig.minHealth && health[0] != -1)
+            if (health[0] < minHealth && health[0] != -1)
             {
                 PluginAPI.WarningWriteLine("Low health detected! (" + health[0] + "/" + health[1] + ")");
                 PluginAPI.alert();
