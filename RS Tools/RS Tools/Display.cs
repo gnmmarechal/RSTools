@@ -178,7 +178,7 @@ namespace RS_Tools
                     graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
                 }
             }
-            image.Dispose();
+            //image.Dispose();
             return destImage;
         }
 
@@ -203,7 +203,7 @@ namespace RS_Tools
                     graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
                 }
             }
-            image.Dispose();
+            //image.Dispose();
             return destImage;
         }
 
@@ -258,7 +258,7 @@ namespace RS_Tools
             }
 
             NewBitmap.UnlockBits(data);
-            Image.Dispose();
+            //Image.Dispose();
             return NewBitmap;
         }
 
@@ -272,7 +272,7 @@ namespace RS_Tools
                         ocrtext = page.GetText();
                     }
                 }
-            imgsource.Dispose();
+            //imgsource.Dispose();
             return ocrtext;
         }
 

@@ -84,7 +84,16 @@ namespace RS_Tools
 
                 foreach (RSToolsPlugin plugin in PluginLoader.Plugins)
                 {
-                    // Must use Clone() or the bitmap will get corrupted (?)
+                    /* To-do:
+                     * Add multithread support.
+                     * Each plugin should be its own thread.
+                     * Ex.
+                     * Thread t = new Thread( () => (plugin.Run(blabla)));
+                     * t.Start()
+                     * 
+                     * then t.Join() to wait for it to finish before moving on to the next loop.
+                     */
+
                     plugin.Run((Bitmap)gameAreaScreenshot);
                 }
 
