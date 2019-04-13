@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RS Tools")]
-[assembly: AssemblyDescription("RuneScape Toolkit by gnmmarechal")]
+[assembly: AssemblyTitle("EmptyInventoryAlert")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RS Tools")]
-[assembly: AssemblyCopyright("Copyright ©  2019 gnmmarechal")]
+[assembly: AssemblyProduct("EmptyInventoryAlert")]
+[assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1e60708f-8fb0-49c5-aab1-c9b7f0b2678f")]
+[assembly: Guid("9b3a73a0-c136-4585-95ec-82b14387e178")]
 
 // Version information for an assembly consists of the following four values:
 //

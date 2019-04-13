@@ -63,7 +63,7 @@ namespace LobbyPause
             Bitmap playBitmap = Display.CropBitmap(gameImage, PlayButtonArea[0], PlayButtonArea[1]);
             Bitmap ogPlayBitmap = new Bitmap(filePath);
             double similarity = Display.getBitmapSimilarity(playBitmap, ogPlayBitmap);
-            if (similarity > 0.8)
+            if (similarity == 1)
             {
                 PluginAPI.WriteLine("Lobby detected. RS Tools paused.");
                 PluginAPI.alert();
