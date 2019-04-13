@@ -22,7 +22,6 @@ namespace RS_Tools
         
 
         // Config values
-        static bool extraWindows = false;
         static int minHealthValue = 2000;
         static bool isRunning = true;
 
@@ -32,11 +31,11 @@ namespace RS_Tools
         {
             Display.eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
             Console.WriteLine("RS Tools by gnmmarechal");
-            Display.POINT c1, c2;
-            Display.POINT healthC1, healthC2;
+            //Display.POINT c1, c2;
+            //Display.POINT healthC1, healthC2;
 
             Config cfg = new Config("config.cfg");
-            c1 = cfg.ChatScanner[0];
+            /*c1 = cfg.ChatScanner[0];
             c2 = cfg.ChatScanner[1];
             healthC1 = cfg.HealthScanner[0];
             healthC2 = cfg.HealthScanner[1];
@@ -47,7 +46,7 @@ namespace RS_Tools
                 "Chat Scanner: (" + c1.X + "," + c1.Y + ") - (" + c2.X + "," + c2.Y + ")\n" +
                 "Health Scanner: (" + healthC1.X + "," + healthC1.Y + ") - (" + healthC2.X + "," + healthC2.Y + ")\n" +
                 "Minimum Health Value: " + minHealthValue + "\n" +
-                "Prayer Scanner: (" + cfg.PrayerScanner[0].X + "," + cfg.PrayerScanner[0].Y + ") - (" + cfg.PrayerScanner[1].X + "," + cfg.PrayerScanner[1].Y + ")");
+                "Prayer Scanner: (" + cfg.PrayerScanner[0].X + "," + cfg.PrayerScanner[0].Y + ") - (" + cfg.PrayerScanner[1].X + "," + cfg.PrayerScanner[1].Y + ")");*/
 
 
 
@@ -61,33 +60,6 @@ namespace RS_Tools
             int loopCount = 0;
 
             Display d1 = new Display();
-            
-            /*var f = new PictureForm();
-            var t = new Thread(() => {
-                
-                f.ShowDialog();
-            });
-            //t.SetApartmentState(ApartmentState.STA);
-
-            var f2 = new StatsWindow();
-            var t2 = new Thread(() => {
-
-                f2.ShowDialog();
-            });
-            //t2.SetApartmentState(ApartmentState.STA);
-
-            if (!extraWindows)
-            {
-                Console.WriteLine("Disabling extra windows...");
-            }
-            else
-            {
-                Console.WriteLine("Starting extra windows...");
-                t.Start();
-                t2.Start();
-            }*/
-
-
 
             // Load Plugins
             PluginLoader loader;
@@ -124,7 +96,7 @@ namespace RS_Tools
                 // New System
                 Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
                 Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
-                //Console.WriteLine("Game Area BMP {0}: " + Convert.ToString(gameAreaScreenshot.Width) + "x" + Convert.ToString(gameAreaScreenshot.Height), Convert.ToString(loopCount++));
+                //Console.WriteLine("Game Area BMP {0}: " + Convert.ToString(gameAreaScreenshot.Width) + "x" + Convert.ToString(gameAreaScreenshot.Height), Convert.ToString(loopCount));
                 completeScreenshot.Dispose();
 
                 // Run Plugins
@@ -132,54 +104,15 @@ namespace RS_Tools
                 foreach (RSToolsPlugin plugin in PluginLoader.Plugins)
                 {
                     // Must use Clone() or the bitmap will get corrupted (?)
-                    plugin.Run((Bitmap)gameAreaScreenshot.Clone());
+                    plugin.Run((Bitmap)gameAreaScreenshot);
                 }
 
                 gameAreaScreenshot.Dispose();
 
-                // Health scanner
-                /* Bitmap healthSc = Display.GetAreaBitmap(healthC1, healthC2);
-                 Bitmap healthScPostA = Display.ResizeImage(healthSc, healthSc.Width * 3, healthSc.Height * 3);
-                 Bitmap healthScPostB = Display.AdjustContrast(healthScPostA, 40);
-                 int[] health = { -1, -1 };
-
-                 try
-                 {
-                     health = parseHealth(healthScPostB);
-                 } catch (Exception e)
-                 {
-                     Console.WriteLine("Invalid health values. Skipping.");
-                     GC.Collect();
-                 }
-
-                 Console.WriteLine("Parsed Health Scanner Values: {0}/{1}", health[0], health[1]);
-                 //GC.Collect();
-                if (f2.Visible)
-                     f2.Invoke(new Action(() => { f2.healthValue.Text = Convert.ToString(health[0]); }));
-
-                 if (f2.Visible)
-                 {
-                     if (f2.healthWarningCheckbox.Checked && health[0] < minHealthValue && health[0] != -1)
-                     {
-                         healthAlert();
-                     }
-                 }
-                 else if (health[0] < minHealthValue && health[0] != -1)
-                 {
-                     healthWarning();
-                 }
 
 
-
-                 // Dispose of objects
-                 gameAreaScreenshot.Dispose();
-                 //chatAreaBitmap.Dispose();
-                 //bigSc.Dispose();
-                 //bigSc2.Dispose();
-                 healthSc.Dispose();
-                 healthScPostA.Dispose();
-                 healthScPostB.Dispose();*/
                 GC.Collect();
+                loopCount++;
                 //Console.Clear();
                 //sleep(100);
             }

@@ -73,13 +73,19 @@ namespace LowHealthAlarm
             }
             catch (Exception e)
             {
-                PluginAPI.WriteLine("EXCEPTION: " + e.Message);
+                if (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > Properties.Settings.Default.LastWarning + 30000)
+                {
+                    PluginAPI.WriteLine("EXCEPTION: " + e.Message);
+                    Properties.Settings.Default.LastWarning = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                    Properties.Settings.Default.Save();
+                }
             }
 
             if (health[0] < localConfig.minHealth && health[0] != -1)
             {
                 PluginAPI.WarningWriteLine("Low health detected! (" + health[0] + "/" + health[1] + ")");
                 PluginAPI.alert();
+
             }
 
             bigSc2.Dispose();

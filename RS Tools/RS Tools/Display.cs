@@ -145,7 +145,7 @@ namespace RS_Tools
         {
             Rectangle rect = new Rectangle(cropX, cropY, cropWidth, cropHeight);
             Bitmap cropped = bitmap.Clone(rect, bitmap.PixelFormat);
-            bitmap.Dispose();
+            //bitmap.Dispose();
             return cropped;
         }
         // Get colour at pixel
