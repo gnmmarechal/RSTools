@@ -14,12 +14,9 @@ using EyeOpen.Imaging;
 
 namespace RS_Tools
 {
-    class Program
+    class RSTools
     {
 
-        // Tesseract Engine
-        //public static TesseractEngine engine = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
-        
 
         // Config values
         static bool isRunning = true;
@@ -46,8 +43,6 @@ namespace RS_Tools
                 "Health Scanner: (" + healthC1.X + "," + healthC1.Y + ") - (" + healthC2.X + "," + healthC2.Y + ")\n" +
                 "Minimum Health Value: " + minHealthValue + "\n" +
                 "Prayer Scanner: (" + cfg.PrayerScanner[0].X + "," + cfg.PrayerScanner[0].Y + ") - (" + cfg.PrayerScanner[1].X + "," + cfg.PrayerScanner[1].Y + ")");*/
-
-
 
             Console.WriteLine("\n===Hit ENTER to load all plugins===");
             Console.ReadKey();

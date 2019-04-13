@@ -68,7 +68,7 @@
     <Compile Include="PluginAPI.cs" />
     <Compile Include="PluginConstants.cs" />
     <Compile Include="PluginLoader.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="RSTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RSToolsPlugin.cs" />
     <Compile Include="StatsWindow.cs">
