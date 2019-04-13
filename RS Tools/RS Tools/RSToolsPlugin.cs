@@ -13,10 +13,7 @@ namespace RS_Tools
         string PluginPackage { get; }
         int PluginVersion { get;  }
         string PluginDescription { get; }
-        void Setup(String data);
         void Setup(Config cfg);
-        void Run(in Bitmap gameImage, String settings);
         void Run(in Bitmap gameImage);
-        void Run(in Bitmap gameImage, String settings, ref String communication);
     }
 }

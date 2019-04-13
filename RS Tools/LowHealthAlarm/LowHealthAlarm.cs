@@ -44,11 +44,6 @@ namespace LowHealthAlarm
             }
         }
 
-        public void Run(in System.Drawing.Bitmap gameImage, string settings)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Run(in System.Drawing.Bitmap gameImage)
         {
             // Parse Settings
@@ -96,17 +91,6 @@ namespace LowHealthAlarm
             bigSc2.Dispose();
             bigSc.Dispose();
             chatAreaBitmap.Dispose();
-        }
-
-        public void Run(in System.Drawing.Bitmap gameImage, string settings, ref string communication)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Setup(string data)
-        {
-            PluginAPI.WriteLine("This plugin must be configured with Setup( Config ).");
-            throw new NotImplementedException();
         }
 
         public void Setup(Config cfg)
