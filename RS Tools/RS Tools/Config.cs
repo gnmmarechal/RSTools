@@ -43,6 +43,10 @@ namespace RS_Tools
                     xOffset = Convert.ToInt32(splitLine[1]);
                     yOffset = Convert.ToInt32(splitLine[2]);
                 }
+                else if (line.StartsWith("//") || line.StartsWith("#"))
+                {
+                    // Comment line, do nothing.
+                }
                 else
                 {
                     pluginSettings.Add(splitLine[0], reLine);
