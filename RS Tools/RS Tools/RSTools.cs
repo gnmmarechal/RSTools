@@ -20,7 +20,7 @@ namespace RS_Tools
 
         // Config values
         static bool isRunning = true;
-
+        public static readonly object _lockObj = new object();
 
         //[STAThread]
         static void Main(string[] args)
@@ -76,10 +76,10 @@ namespace RS_Tools
                 // New System 
 
                 //Console.WriteLine("Game Area BMP {0}: " + Convert.ToString(gameAreaScreenshot.Width) + "x" + Convert.ToString(gameAreaScreenshot.Height), Convert.ToString(loopCount));
-                
+
 
                 // Run Plugins
-
+                List<Thread> threadList = new List<Thread>();
                 foreach (RSToolsPlugin plugin in PluginLoader.Plugins)
                 {
                     /* To-do:
@@ -91,17 +91,26 @@ namespace RS_Tools
                      * 
                      * then t.Join() to wait for it to finish before moving on to the next loop.
                      */
-                    Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
-                    Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
-                    completeScreenshot.Dispose();
-                    //PluginAPI.WriteLine("Screenshot taken");
-                    plugin.Run((Bitmap)gameAreaScreenshot);
-                    gameAreaScreenshot.Dispose();
+                    Thread t = new Thread(() =>
+                   {
+                       Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
+                       Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
+                       completeScreenshot.Dispose();
+                         //PluginAPI.WriteLine("Screenshot taken");
+                         plugin.Run((Bitmap)gameAreaScreenshot);
+                       gameAreaScreenshot.Dispose();
+                   });
+
+                    t.Start();
+                    threadList.Add(t);
                 }
 
-                
 
 
+                foreach (Thread t in threadList)
+                {
+                    t.Join();
+                }
 
                 GC.Collect();
                 loopCount++;

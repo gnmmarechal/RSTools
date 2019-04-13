@@ -265,6 +265,8 @@ namespace RS_Tools
         public static string GetText(Bitmap imgsource)
         {
             var ocrtext = string.Empty;
+            lock(RSTools._lockObj)
+            {
                 using (var img = PixConverter.ToPix(imgsource))
                 {
                     using (var page = eng.Process(img)) // Program.engine
@@ -272,6 +274,7 @@ namespace RS_Tools
                         ocrtext = page.GetText();
                     }
                 }
+            }
             //imgsource.Dispose();
             return ocrtext;
         }
