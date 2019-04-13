@@ -87,7 +87,7 @@ namespace ChatBoxLootAlarm
                 PluginAPI.WriteLine("Chat BMP: " + w + "x" + h);
                 PluginAPI.SuccessWriteLine("Text match found!");
                 PluginAPI.alert();
-                Console.ReadLine();
+                Console.ReadKey();
             }
 
             bigSc2.Dispose();
