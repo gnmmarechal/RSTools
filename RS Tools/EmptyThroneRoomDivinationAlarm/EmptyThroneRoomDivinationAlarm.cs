@@ -96,9 +96,15 @@ namespace EmptyThroneRoomDivinationAlarm
                 }
 
                 xp = Convert.ToInt32(newString);
-                PluginAPI.WriteLine("XP String: " + txt);
-                
+
+                Properties.Settings.Default.LastXpStringTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                Properties.Settings.Default.Save();
             }
+            else if (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > Properties.Settings.Default.LastXpStringTime + 60000 && localConfig.GetBootTime() < Properties.Settings.Default.LastXpStringTime)
+            {
+                PluginAPI.WriteLine("Warning: Last detected XP string over 60 seconds ago.");
+            }
+
 
             if (xp < minXp)
             {

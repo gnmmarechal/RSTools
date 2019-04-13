@@ -11,6 +11,7 @@ using Tesseract;
 
 using System.Text.RegularExpressions;
 using EyeOpen.Imaging;
+using System.IO;
 
 namespace RS_Tools
 {
@@ -21,15 +22,18 @@ namespace RS_Tools
         // Config values
         static bool isRunning = true;
         public static readonly object _lockObj = new object();
+        public static readonly long _bootTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
         //[STAThread]
         static void Main(string[] args)
         {
             Display.eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
+            Display.eng.SetVariable("debug_file", "nul");
             Console.WriteLine("RS Tools by gnmmarechal");
+            Console.WriteLine("\nTesseract Version: " + Display.eng.Version);
 
             Config cfg = new Config("config.cfg");
-
+            cfg.SetBootTime(_bootTime);
             Console.WriteLine("\n===Hit ENTER to load all plugins===");
             Console.ReadKey();
 

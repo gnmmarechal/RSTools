@@ -13,6 +13,8 @@ namespace RS_Tools
         public int[] gameResolution = { 1920, 1080 };
         public int xOffset = 0;
         public int yOffset = 0;
+        private bool bootSetFlag = false;
+        private long bootTime = 0L;
 
         private Dictionary<String, String> pluginSettings;
 
@@ -66,5 +68,20 @@ namespace RS_Tools
             return str;
         }
 
+        public long GetBootTime()
+        {
+            return bootTime;
+        }
+
+        public bool SetBootTime(long time)
+        {
+            if (!bootSetFlag)
+            {
+                bootTime = time;
+                bootSetFlag = true;
+                return true;
+            }
+            return false;
+        }
     }
 }

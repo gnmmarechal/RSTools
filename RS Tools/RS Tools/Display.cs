@@ -265,20 +265,23 @@ namespace RS_Tools
         public static string GetText(Bitmap imgsource)
         {
             var ocrtext = string.Empty;
-            lock(RSTools._lockObj)
+            using (var img = PixConverter.ToPix(imgsource))
             {
-                using (var img = PixConverter.ToPix(imgsource))
+                lock (RSTools._lockObj) // You can only process one image at a time
                 {
+
+
                     using (var page = eng.Process(img)) // Program.engine
                     {
                         ocrtext = page.GetText();
                     }
+
                 }
             }
+
             //imgsource.Dispose();
             return ocrtext;
         }
-
 
         public static string[] GetTextLines(Bitmap imgsource)
         {

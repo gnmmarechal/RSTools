@@ -73,7 +73,7 @@ namespace LowHealthAlarm
             }
             catch (Exception e)
             {
-                if (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > Properties.Settings.Default.LastWarning + 30000)
+                if (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > Properties.Settings.Default.LastWarning + 30000 && localConfig.GetBootTime() < Properties.Settings.Default.LastWarning)
                 {
                     PluginAPI.WriteLine("EXCEPTION: " + e.Message);
                     Properties.Settings.Default.LastWarning = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
