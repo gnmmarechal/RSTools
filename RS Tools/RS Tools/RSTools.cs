@@ -30,7 +30,6 @@ namespace RS_Tools
 
             Config cfg = new Config("config.cfg");
 
-
             Console.WriteLine("\n===Hit ENTER to load all plugins===");
             Console.ReadKey();
 
@@ -74,11 +73,10 @@ namespace RS_Tools
             while (isRunning)
             {
 
-                // New System
-                Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
-                Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
+                // New System 
+
                 //Console.WriteLine("Game Area BMP {0}: " + Convert.ToString(gameAreaScreenshot.Width) + "x" + Convert.ToString(gameAreaScreenshot.Height), Convert.ToString(loopCount));
-                completeScreenshot.Dispose();
+                
 
                 // Run Plugins
 
@@ -93,11 +91,15 @@ namespace RS_Tools
                      * 
                      * then t.Join() to wait for it to finish before moving on to the next loop.
                      */
-
+                    Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
+                    Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
+                    completeScreenshot.Dispose();
+                    //PluginAPI.WriteLine("Screenshot taken");
                     plugin.Run((Bitmap)gameAreaScreenshot);
+                    gameAreaScreenshot.Dispose();
                 }
 
-                gameAreaScreenshot.Dispose();
+                
 
 
 
