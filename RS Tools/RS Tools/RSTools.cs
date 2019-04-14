@@ -21,6 +21,7 @@ namespace RS_Tools
 
         // Config values
         static bool isRunning = true;
+        private object messageQueue;
         public static readonly object _lockObj = new object();
         public static readonly long _bootTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
@@ -33,6 +34,11 @@ namespace RS_Tools
             Console.WriteLine("\nTesseract Version: " + Display.eng.Version);
 
             Config cfg = new Config("config.cfg");
+
+            if (args.Length == 1)
+            {
+                cfg = new Config(args[0]);
+            }
             cfg.SetBootTime(_bootTime);
             Console.WriteLine("\n===Hit ENTER to load all plugins===");
             Console.ReadKey();
@@ -73,6 +79,8 @@ namespace RS_Tools
                 plugin.Setup(cfg);
             }
 
+            List<String> disabledPluginList = new List<String>();
+
             PluginAPI.WriteLine("Starting plugin execution loop.");
             while (isRunning)
             {
@@ -84,42 +92,54 @@ namespace RS_Tools
 
                 // Run Plugins
                 List<Thread> threadList = new List<Thread>();
+                bool runWorker = true;
                 foreach (RSToolsPlugin plugin in PluginLoader.Plugins)
                 {
-                    /* To-do:
-                     * Add multithread support.
-                     * Each plugin should be its own thread.
-                     * Ex.
-                     * Thread t = new Thread( () => (plugin.Run(blabla)));
-                     * t.Start()
-                     * 
-                     * then t.Join() to wait for it to finish before moving on to the next loop.
-                     */
-                    Thread t = new Thread(() =>
-                   {
-                       Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
-                       Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
-                       completeScreenshot.Dispose();
-                         //PluginAPI.WriteLine("Screenshot taken");
-                         plugin.Run((Bitmap)gameAreaScreenshot);
-                       gameAreaScreenshot.Dispose();
-                   });
+                    if (!disabledPluginList.Contains(plugin.PluginPackage))
+                    {
+                        Thread t = new Thread(() =>
+                        {
+                            while (runWorker)
+                            {
+                                Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
+                                Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
+                                completeScreenshot.Dispose();
+                                plugin.Run((Bitmap)gameAreaScreenshot);
+                                gameAreaScreenshot.Dispose();
+                                GC.Collect();
+                            }
 
-                    t.Start();
-                    threadList.Add(t);
+                        });
+
+                        t.Start();
+                        threadList.Add(t);
+                    }
+
                 }
 
+                // Read user commands
+
+                string input;
+                do
+                {
+                    input = Console.ReadLine();
+                    switch(input.Split(' ')[0])
+                    {
+                        case "disable":
+
+                            break;
+                    }
+                } while (!String.IsNullOrWhiteSpace(input));
+                runWorker = false;
 
 
-                foreach (Thread t in threadList)
+                foreach (Thread t in threadList) // This might be unnecessary right now.
                 {
                     t.Join();
                 }
 
-                GC.Collect();
+                
                 loopCount++;
-                //Console.Clear();
-                //sleep(100);
             }
 
 
@@ -146,5 +166,6 @@ namespace RS_Tools
             //screenshot.Dispose();
             Application.Run(f);
         }
+
     }
 }
