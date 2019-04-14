@@ -21,7 +21,6 @@ namespace RS_Tools
 
         // Config values
         static bool isRunning = true;
-        private object messageQueue;
         public static readonly object _lockObj = new object();
         public static readonly long _bootTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
@@ -40,6 +39,8 @@ namespace RS_Tools
                 cfg = new Config(args[0]);
             }
             cfg.SetBootTime(_bootTime);
+
+            //Display.CropBitmap(Display.GetWholeDisplayBitmap(), 3703, 966, 3735-3703, 988-966).Save("lastInvSlot.bmp");
             Console.WriteLine("\n===Hit ENTER to load all plugins===");
             Console.ReadKey();
 
