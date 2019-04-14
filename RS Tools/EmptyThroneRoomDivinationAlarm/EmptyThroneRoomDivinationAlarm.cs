@@ -12,6 +12,8 @@ namespace EmptyThroneRoomDivinationAlarm
     public class EmptyThroneRoomDivinationAlarm : RSToolsPlugin
     {
         private Config localConfig;
+        private Display.POINT[] ExpScanner;
+        private int minXp = 99999999;
 
         public string PluginName
         {
@@ -47,21 +49,7 @@ namespace EmptyThroneRoomDivinationAlarm
 
         public void Run(in System.Drawing.Bitmap gameImage)
         {
-            // Parse Settings
-            String settings = localConfig.GetSettings();
 
-            String[] set = settings.Split(' ');
-            Display.POINT[] ExpScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
-            int minXp = Convert.ToInt32(set[4]);
-            // Offset correction
-            if (ExpScanner[0].X >= localConfig.xOffset)
-                ExpScanner[0].X -= localConfig.xOffset;
-            if (ExpScanner[0].Y >= localConfig.yOffset)
-                ExpScanner[0].Y -= localConfig.yOffset;
-            if (ExpScanner[1].X >= localConfig.xOffset)
-                ExpScanner[1].X -= localConfig.xOffset;
-            if (ExpScanner[1].Y >= localConfig.yOffset)
-                ExpScanner[1].Y -= localConfig.yOffset;
             Bitmap expAreaBitmap = Display.CropBitmap(gameImage, ExpScanner[0], ExpScanner[1]);
 
             Bitmap bigSc = Display.ResizeImage(expAreaBitmap, expAreaBitmap.Width * 5, expAreaBitmap.Height * 5);
@@ -95,7 +83,14 @@ namespace EmptyThroneRoomDivinationAlarm
                     }
                 }
 
-                xp = Convert.ToInt32(newString);
+                try
+                {
+                    xp = Convert.ToInt32(newString);
+                }
+                catch (Exception)
+                {
+                    PluginAPI.WriteLine("EXCEPTION: String matches regex but xp can't be parsed.");
+                }
 
                 Properties.Settings.Default.LastXpStringTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
                 Properties.Settings.Default.Save();
@@ -122,6 +117,24 @@ namespace EmptyThroneRoomDivinationAlarm
         {
             localConfig = cfg;
             PluginAPI.WriteLine("Configuration file loaded.");
+
+            PluginAPI.WriteLine("Parsing settings...");
+
+            // Parse Settings
+            String settings = localConfig.GetSettings();
+
+            String[] set = settings.Split(' ');
+            ExpScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
+            minXp = Convert.ToInt32(set[4]);
+            // Offset correction
+            if (ExpScanner[0].X >= localConfig.xOffset)
+                ExpScanner[0].X -= localConfig.xOffset;
+            if (ExpScanner[0].Y >= localConfig.yOffset)
+                ExpScanner[0].Y -= localConfig.yOffset;
+            if (ExpScanner[1].X >= localConfig.xOffset)
+                ExpScanner[1].X -= localConfig.xOffset;
+            if (ExpScanner[1].Y >= localConfig.yOffset)
+                ExpScanner[1].Y -= localConfig.yOffset;
         }
     }
 }

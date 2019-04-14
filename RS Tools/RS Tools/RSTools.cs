@@ -99,6 +99,9 @@ namespace RS_Tools
                     {
                         Thread t = null;
 
+
+                        // Here add a check to see if a plugin is both ("hybrid") and check flags to see what to run it as
+
                         if (plugin is RSToolsPlugin)
                         {
                             t = new Thread(() =>

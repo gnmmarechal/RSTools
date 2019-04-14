@@ -11,6 +11,8 @@ namespace LowHealthAlarm
     public class LowHealthAlarm : RSToolsPlugin
     {
         private Config localConfig;
+        private Display.POINT[] HealthScanner;
+        private int minHealth;
 
         public string PluginName
         {
@@ -46,24 +48,8 @@ namespace LowHealthAlarm
 
         public void Run(in System.Drawing.Bitmap gameImage)
         {
-            // Parse Settings
-            String settings = localConfig.GetSettings();
-            String[] set = settings.Split(' ');
-            Display.POINT[] HealthScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
-            int minHealth = Convert.ToInt32(set[4]);
-            // Offset correction
-            if (HealthScanner[0].X >= localConfig.xOffset)
-                HealthScanner[0].X -= localConfig.xOffset;
-            if (HealthScanner[0].Y >= localConfig.yOffset)
-                HealthScanner[0].Y -= localConfig.yOffset;
-            if (HealthScanner[1].X >= localConfig.xOffset)
-                HealthScanner[1].X -= localConfig.xOffset;
-            if (HealthScanner[1].Y >= localConfig.yOffset)
-                HealthScanner[1].Y -= localConfig.yOffset;
-            Bitmap chatAreaBitmap = Display.CropBitmap(gameImage, HealthScanner[0], HealthScanner[1]);
-            int w = chatAreaBitmap.Width;
-            int h = chatAreaBitmap.Height;
 
+            Bitmap chatAreaBitmap = Display.CropBitmap(gameImage, HealthScanner[0], HealthScanner[1]);
             Bitmap bigSc = Display.ResizeImage(chatAreaBitmap, chatAreaBitmap.Width * 3, chatAreaBitmap.Height * 3);
             Bitmap bigSc2 = Display.AdjustContrast(bigSc, 40);
             int[] health = { -1, -1 };
@@ -97,6 +83,22 @@ namespace LowHealthAlarm
         {
             localConfig = cfg;
             PluginAPI.WriteLine("Configuration file loaded.");
+
+            PluginAPI.WriteLine("Parsing settings...");
+            // Parse Settings
+            String settings = localConfig.GetSettings();
+            String[] set = settings.Split(' ');
+            HealthScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
+            minHealth = Convert.ToInt32(set[4]);
+            // Offset correction
+            if (HealthScanner[0].X >= localConfig.xOffset)
+                HealthScanner[0].X -= localConfig.xOffset;
+            if (HealthScanner[0].Y >= localConfig.yOffset)
+                HealthScanner[0].Y -= localConfig.yOffset;
+            if (HealthScanner[1].X >= localConfig.xOffset)
+                HealthScanner[1].X -= localConfig.xOffset;
+            if (HealthScanner[1].Y >= localConfig.yOffset)
+                HealthScanner[1].Y -= localConfig.yOffset;
         }
 
         private static int[] parseHealth(Bitmap healthScPostB)

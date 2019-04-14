@@ -11,6 +11,8 @@ namespace EmptyInventoryAlert
     public class EmptyInventoryAlert : RSToolsPlugin
     {
         private Config localConfig;
+        private Display.POINT[] InventoryScanner;
+        private String filePath = "";
 
         public string PluginName
         {
@@ -46,20 +48,6 @@ namespace EmptyInventoryAlert
 
         public void Run(in System.Drawing.Bitmap gameImage)
         {
-            // Parse Settings
-            String settings = localConfig.GetSettings();
-            String[] set = settings.Split(' ');
-            Display.POINT[] InventoryScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
-            String filePath = set[4];
-            // Offset correction
-            if (InventoryScanner[0].X >= localConfig.xOffset)
-                InventoryScanner[0].X -= localConfig.xOffset;
-            if (InventoryScanner[0].Y >= localConfig.yOffset)
-                InventoryScanner[0].Y -= localConfig.yOffset;
-            if (InventoryScanner[1].X >= localConfig.xOffset)
-                InventoryScanner[1].X -= localConfig.xOffset;
-            if (InventoryScanner[1].Y >= localConfig.yOffset)
-                InventoryScanner[1].Y -= localConfig.yOffset;
 
             if  (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > Properties.Settings.Default.LastWarning + 5000)
             {
@@ -85,6 +73,25 @@ namespace EmptyInventoryAlert
         {
             localConfig = cfg;
             PluginAPI.WriteLine("Configuration file loaded.");
+
+            PluginAPI.WriteLine("Parsing settings...");
+
+            // Parse Settings
+            String settings = localConfig.GetSettings();
+            String[] set = settings.Split(' ');
+
+            filePath = set[4];
+
+            InventoryScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
+            // Offset correction
+            if (InventoryScanner[0].X >= localConfig.xOffset)
+                InventoryScanner[0].X -= localConfig.xOffset;
+            if (InventoryScanner[0].Y >= localConfig.yOffset)
+                InventoryScanner[0].Y -= localConfig.yOffset;
+            if (InventoryScanner[1].X >= localConfig.xOffset)
+                InventoryScanner[1].X -= localConfig.xOffset;
+            if (InventoryScanner[1].Y >= localConfig.yOffset)
+                InventoryScanner[1].Y -= localConfig.yOffset;
         }
     }
 }

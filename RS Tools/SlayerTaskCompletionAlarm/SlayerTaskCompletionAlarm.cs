@@ -13,6 +13,7 @@ namespace SlayerTaskCompletionAlarm
         private Config localConfig;
         private static string[] matchingTerms = { "tasks in a row", "Return to a Slayer Master"};
         private TextMatcher chatMatcher;
+        private Display.POINT[] ChatScanner;
 
         public string PluginName
         {
@@ -48,23 +49,8 @@ namespace SlayerTaskCompletionAlarm
 
         public void Run(in System.Drawing.Bitmap gameImage)
         {
-            // Parse Settings
-            String settings = localConfig.GetSettings();
-            String[] set = settings.Split(' ');
-            Display.POINT[] ChatScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
 
-            // Offset correction
-            if (ChatScanner[0].X >= localConfig.xOffset)
-                ChatScanner[0].X -= localConfig.xOffset;
-            if (ChatScanner[0].Y >= localConfig.yOffset)
-                ChatScanner[0].Y -= localConfig.yOffset;
-            if (ChatScanner[1].X >= localConfig.xOffset)
-                ChatScanner[1].X -= localConfig.xOffset;
-            if (ChatScanner[1].Y >= localConfig.yOffset)
-                ChatScanner[1].Y -= localConfig.yOffset;
             Bitmap chatAreaBitmap = Display.CropBitmap(gameImage, ChatScanner[0], ChatScanner[1]);
-            int w = chatAreaBitmap.Width;
-            int h = chatAreaBitmap.Height;
 
             Bitmap bigSc = Display.ResizeImage(chatAreaBitmap, chatAreaBitmap.Width * 5, chatAreaBitmap.Height * 5);
             Bitmap bigSc2 = Display.AdjustContrast(bigSc, 40);
@@ -83,7 +69,6 @@ namespace SlayerTaskCompletionAlarm
 
             if (chatMatcher.certainMatch(txt))
             {
-                PluginAPI.WriteLine("Chat BMP: " + w + "x" + h);
                 PluginAPI.SuccessWriteLine("Text match found!");
                 PluginAPI.alert();
                 Console.ReadKey();
@@ -98,6 +83,23 @@ namespace SlayerTaskCompletionAlarm
         {
             localConfig = cfg;
             PluginAPI.WriteLine("Configuration file loaded.");
+
+            PluginAPI.WriteLine("Parsing settings...");
+            // Parse Settings
+            String settings = localConfig.GetSettings();
+            String[] set = settings.Split(' ');
+            ChatScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
+
+            // Offset correction
+            if (ChatScanner[0].X >= localConfig.xOffset)
+                ChatScanner[0].X -= localConfig.xOffset;
+            if (ChatScanner[0].Y >= localConfig.yOffset)
+                ChatScanner[0].Y -= localConfig.yOffset;
+            if (ChatScanner[1].X >= localConfig.xOffset)
+                ChatScanner[1].X -= localConfig.xOffset;
+            if (ChatScanner[1].Y >= localConfig.yOffset)
+                ChatScanner[1].Y -= localConfig.yOffset;
+
             chatMatcher = new TextMatcher(matchingTerms);
             PluginAPI.WriteLine("Text matcher initialised.");
         }

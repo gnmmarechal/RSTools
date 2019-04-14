@@ -11,6 +11,8 @@ namespace LobbyPause
     public class LobbyPause : RSToolsPlugin
     {
         private Config localConfig;
+        private Display.POINT[] PlayButtonArea;
+        private String filePath = "";
 
         public string PluginName
         {
@@ -46,20 +48,6 @@ namespace LobbyPause
 
         public void Run(in System.Drawing.Bitmap gameImage)
         {
-            // Parse Settings
-            String settings = localConfig.GetSettings();
-            String[] set = settings.Split(' ');
-            Display.POINT[] PlayButtonArea = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
-            String filePath = set[4];
-            // Offset correction
-            if (PlayButtonArea[0].X >= localConfig.xOffset)
-                PlayButtonArea[0].X -= localConfig.xOffset;
-            if (PlayButtonArea[0].Y >= localConfig.yOffset)
-                PlayButtonArea[0].Y -= localConfig.yOffset;
-            if (PlayButtonArea[1].X >= localConfig.xOffset)
-                PlayButtonArea[1].X -= localConfig.xOffset;
-            if (PlayButtonArea[1].Y >= localConfig.yOffset)
-                PlayButtonArea[1].Y -= localConfig.yOffset;
             Bitmap playBitmap = Display.CropBitmap(gameImage, PlayButtonArea[0], PlayButtonArea[1]);
             Bitmap ogPlayBitmap = new Bitmap(filePath);
             double similarity = Display.getBitmapSimilarity(playBitmap, ogPlayBitmap);
@@ -77,6 +65,22 @@ namespace LobbyPause
         {
             localConfig = cfg;
             PluginAPI.WriteLine("Configuration file loaded.");
+
+            PluginAPI.WriteLine("Parsing settings...");
+            // Parse Settings
+            String settings = localConfig.GetSettings();
+            String[] set = settings.Split(' ');
+            PlayButtonArea = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
+            filePath = set[4];
+            // Offset correction
+            if (PlayButtonArea[0].X >= localConfig.xOffset)
+                PlayButtonArea[0].X -= localConfig.xOffset;
+            if (PlayButtonArea[0].Y >= localConfig.yOffset)
+                PlayButtonArea[0].Y -= localConfig.yOffset;
+            if (PlayButtonArea[1].X >= localConfig.xOffset)
+                PlayButtonArea[1].X -= localConfig.xOffset;
+            if (PlayButtonArea[1].Y >= localConfig.yOffset)
+                PlayButtonArea[1].Y -= localConfig.yOffset;
         }
 
     }
