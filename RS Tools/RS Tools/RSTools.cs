@@ -123,13 +123,40 @@ namespace RS_Tools
                 do
                 {
                     input = Console.ReadLine();
-                    switch(input.Split(' ')[0])
+                    string arg = string.Join("", input.Split(' ').Skip(1).ToArray());
+                    String command = input.Split(' ')[0];
+                    command = Regex.Replace(command, @"[^0-9a-zA-Z]+", "");
+                    if (command.Equals("disable"))
                     {
-                        case "disable":
-
-                            break;
+                        if (!disabledPluginList.Contains(arg))
+                        {
+                            PluginAPI.WriteLine("Adding plugin to the blacklist...");
+                            disabledPluginList.Add(arg);
+                        }
+                    }
+                    else if (command.Equals("enable"))
+                    {
+                        if (disabledPluginList.Contains(arg))
+                        {
+                            PluginAPI.WriteLine("Adding plugin to the blacklist...");
+                            disabledPluginList.Remove(arg);
+                        }
+                    }
+                    else if (command.Equals("report"))
+                    {
+                        PluginAPI.WriteLine("Blacklisted packages:\n");
+                        foreach (String plugPackage in disabledPluginList)
+                        {
+                            PluginAPI.WriteLine(plugPackage);
+                        }
                     }
                 } while (!String.IsNullOrWhiteSpace(input));
+                while (Console.KeyAvailable)
+                {
+                    Console.ReadKey(false);
+                }
+
+                PluginAPI.WriteLine("Restarting plugin threads...\n");
                 runWorker = false;
 
 
@@ -166,6 +193,7 @@ namespace RS_Tools
             //screenshot.Dispose();
             Application.Run(f);
         }
+
 
     }
 }
