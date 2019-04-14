@@ -10,11 +10,11 @@ namespace RS_Tools
 {
     public class PluginLoader
     {
-        public static List<RSToolsPlugin> Plugins { get; set; }
+        public static List<RSToolsPluginBase> Plugins { get; set; }
 
         public void loadPlugins()
         {
-            Plugins = new List<RSToolsPlugin>();
+            Plugins = new List<RSToolsPluginBase>();
 
 
             if (Directory.Exists(PluginConstants.PluginFolder))
@@ -30,14 +30,14 @@ namespace RS_Tools
                 }
             }
 
-            Type interfaceType = typeof(RSToolsPlugin);
+            Type interfaceType = typeof(RSToolsPluginBase);
             Type[] types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
                 .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
                 .ToArray();
 
             foreach (Type type in types)
-                Plugins.Add((RSToolsPlugin)Activator.CreateInstance(type));
+                Plugins.Add((RSToolsPluginBase)Activator.CreateInstance(type));
         }
     }
 }

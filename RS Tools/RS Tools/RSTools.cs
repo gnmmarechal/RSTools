@@ -58,7 +58,7 @@ namespace RS_Tools
                 loader = new PluginLoader();
                 loader.loadPlugins();
                 PluginAPI.WriteLine("Loaded plugins:");
-                foreach (RSToolsPlugin plugin in PluginLoader.Plugins)
+                foreach (RSToolsPluginBase plugin in PluginLoader.Plugins)
                 {
                     string pluginInfo = plugin.PluginName + " | " + plugin.PluginPackage + " | v" + plugin.PluginVersion;
                     PluginAPI.WriteLine(pluginInfo);
@@ -74,7 +74,7 @@ namespace RS_Tools
             }
 
             PluginAPI.WriteLine("Plugin setup started.");
-            foreach (RSToolsPlugin plugin in PluginLoader.Plugins)
+            foreach (RSToolsPluginBase plugin in PluginLoader.Plugins)
             {
                 plugin.Setup(cfg);
             }
@@ -93,23 +93,39 @@ namespace RS_Tools
                 // Run Plugins
                 List<Thread> threadList = new List<Thread>();
                 bool runWorker = true;
-                foreach (RSToolsPlugin plugin in PluginLoader.Plugins)
+                foreach (RSToolsPluginBase plugin in PluginLoader.Plugins)
                 {
                     if (!disabledPluginList.Contains(plugin.PluginPackage))
                     {
-                        Thread t = new Thread(() =>
-                        {
-                            while (runWorker)
-                            {
-                                Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
-                                Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
-                                completeScreenshot.Dispose();
-                                plugin.Run((Bitmap)gameAreaScreenshot);
-                                gameAreaScreenshot.Dispose();
-                                GC.Collect();
-                            }
+                        Thread t = null;
 
-                        });
+                        if (plugin is RSToolsPlugin)
+                        {
+                            t = new Thread(() =>
+                            {
+                                while (runWorker)
+                                {
+                                    Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
+                                    Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
+                                    completeScreenshot.Dispose();
+                                    ((RSToolsPlugin)plugin).Run((Bitmap)gameAreaScreenshot);
+                                    gameAreaScreenshot.Dispose();
+                                    GC.Collect();
+                                }
+
+                            });
+                        }
+                        else if (plugin is MiniRSToolsPlugin) // Plugins that don't require a game bitmap
+                        {
+                            t = new Thread(() =>
+                            {
+                                while (runWorker)
+                                {
+                                    ((MiniRSToolsPlugin)plugin).Run();
+                                    GC.Collect();
+                                }
+                            });
+                        }
 
                         t.Start();
                         threadList.Add(t);

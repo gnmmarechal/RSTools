@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Display.cs" />
+    <Compile Include="MiniRSToolsPlugin.cs" />
     <Compile Include="PictureForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +72,7 @@
     <Compile Include="RSTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RSToolsPlugin.cs" />
+    <Compile Include="RSToolsPluginBase.cs" />
     <Compile Include="StatsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
