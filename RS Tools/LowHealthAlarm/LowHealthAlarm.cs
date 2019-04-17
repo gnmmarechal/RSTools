@@ -90,15 +90,6 @@ namespace LowHealthAlarm
             String[] set = settings.Split(' ');
             HealthScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
             minHealth = Convert.ToInt32(set[4]);
-            // Offset correction
-            if (HealthScanner[0].X >= localConfig.xOffset)
-                HealthScanner[0].X -= localConfig.xOffset;
-            if (HealthScanner[0].Y >= localConfig.yOffset)
-                HealthScanner[0].Y -= localConfig.yOffset;
-            if (HealthScanner[1].X >= localConfig.xOffset)
-                HealthScanner[1].X -= localConfig.xOffset;
-            if (HealthScanner[1].Y >= localConfig.yOffset)
-                HealthScanner[1].Y -= localConfig.yOffset;
         }
 
         private static int[] parseHealth(Bitmap healthScPostB)

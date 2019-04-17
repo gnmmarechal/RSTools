@@ -87,6 +87,15 @@ namespace RS_Tools
             p.Y = y;
             return p;
         }
+
+        public static Display.POINT CorrectOffsets(Display.POINT ogPoint, int xOffset, int yOffset)
+        {
+            Display.POINT ogPoint2;
+            ogPoint2.X = ogPoint.X + xOffset;
+            ogPoint2.Y = ogPoint.Y + yOffset;
+            return ogPoint2;
+        }
+
         public static string RemoveWhitespace(string input)
         {
             return new string(input.ToCharArray()

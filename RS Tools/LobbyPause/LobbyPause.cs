@@ -72,15 +72,6 @@ namespace LobbyPause
             String[] set = settings.Split(' ');
             PlayButtonArea = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
             filePath = set[4];
-            // Offset correction
-            if (PlayButtonArea[0].X >= localConfig.xOffset)
-                PlayButtonArea[0].X -= localConfig.xOffset;
-            if (PlayButtonArea[0].Y >= localConfig.yOffset)
-                PlayButtonArea[0].Y -= localConfig.yOffset;
-            if (PlayButtonArea[1].X >= localConfig.xOffset)
-                PlayButtonArea[1].X -= localConfig.xOffset;
-            if (PlayButtonArea[1].Y >= localConfig.yOffset)
-                PlayButtonArea[1].Y -= localConfig.yOffset;
         }
 
     }

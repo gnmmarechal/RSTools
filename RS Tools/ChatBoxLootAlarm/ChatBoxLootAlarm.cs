@@ -89,15 +89,9 @@ namespace ChatBoxLootAlarm
             String[] set = settings.Split(' ');
             ChatScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
 
-            // Offset correction
-            if (ChatScanner[0].X >= localConfig.xOffset)
-                ChatScanner[0].X -= localConfig.xOffset;
-            if (ChatScanner[0].Y >= localConfig.yOffset)
-                ChatScanner[0].Y -= localConfig.yOffset;
-            if (ChatScanner[1].X >= localConfig.xOffset)
-                ChatScanner[1].X -= localConfig.xOffset;
-            if (ChatScanner[1].Y >= localConfig.yOffset)
-                ChatScanner[1].Y -= localConfig.yOffset;
+
+            ChatScanner[0] = PluginAPI.CorrectOffsets(ChatScanner[0], localConfig.xOffset, localConfig.yOffset);
+            ChatScanner[1] = PluginAPI.CorrectOffsets(ChatScanner[1], localConfig.xOffset, localConfig.yOffset);
 
             PluginAPI.WriteLine("Text matcher initialised.");
         }

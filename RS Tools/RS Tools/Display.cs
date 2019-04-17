@@ -144,6 +144,7 @@ namespace RS_Tools
         public static Bitmap CropBitmap(Bitmap bitmap, int cropX, int cropY, int cropWidth, int cropHeight)
         {
             Rectangle rect = new Rectangle(cropX, cropY, cropWidth, cropHeight);
+
             Bitmap cropped = bitmap.Clone(rect, bitmap.PixelFormat);
             //bitmap.Dispose();
             return cropped;
