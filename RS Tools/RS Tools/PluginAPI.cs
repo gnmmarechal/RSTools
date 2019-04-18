@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -10,6 +11,16 @@ namespace RS_Tools
 {
     public static class PluginAPI
     {
+        private static object lockObj = new object();
+
+        private static Bitmap screenshotBitmap = null;
+        private static long lastScreenshotTime = 0;
+        private static double maxScrPerSecond = 2;
+
+        private static Bitmap gameScreenBitmap = null;
+        private static long lastGameScrTime = 0;
+
+
         public static void WriteLine(string message)
         {
             try
@@ -101,6 +112,36 @@ namespace RS_Tools
             return new string(input.ToCharArray()
                 .Where(c => !Char.IsWhiteSpace(c))
                 .ToArray());
+        }
+
+        private static Bitmap RequestScreenshot()
+        {
+            long curTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            if (curTime > lastScreenshotTime + 1000/maxScrPerSecond)
+            {
+                screenshotBitmap = Display.GetWholeDisplayBitmap();
+                lastScreenshotTime = curTime;
+            }
+
+            return screenshotBitmap;
+        }
+
+        public static Bitmap RequestGameScreenshot(int xOffset, int yOffset, int windowResX, int windowResY)
+        {
+            lock (lockObj)
+            {
+                long curTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+
+                if (curTime > lastGameScrTime + 1000 / maxScrPerSecond)
+                {
+                    gameScreenBitmap = Display.CropBitmap(RequestScreenshot(), xOffset, yOffset, windowResX, windowResY);
+                    lastGameScrTime = curTime;
+                }
+
+                return gameScreenBitmap;
+            }
+
         }
 
     }

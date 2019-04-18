@@ -29,6 +29,11 @@ namespace RS_Tools
             }
         }
 
+        public struct RECT
+        {
+            public int left, top, right, bottom;
+        }
+
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetDesktopWindow();
         [DllImport("user32.dll", SetLastError = true)]
@@ -46,6 +51,18 @@ namespace RS_Tools
         public static extern long SetCursorPos(int x, int y);
         [DllImport("User32.Dll")]
         public static extern bool ClientToScreen(IntPtr hWnd, ref POINT point);
+
+        [DllImport("User32.Dll")]
+        public static extern int SetWindowLong(IntPtr hWdn, int nIndex, int dwNewLong);
+
+        [DllImport("User32.Dll")]
+        public static extern int GetWindowLong(IntPtr hWdn, int nIndex);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("user32.dll")]
+        public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpWindowName);
 
         public Display()
         {

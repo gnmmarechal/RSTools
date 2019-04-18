@@ -67,6 +67,12 @@
       <DependentUpon>PictureForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PluginAPI.cs" />
+    <Compile Include="PluginAPIOverlay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PluginAPIOverlay.Designer.cs">
+      <DependentUpon>PluginAPIOverlay.cs</DependentUpon>
+    </Compile>
     <Compile Include="PluginConstants.cs" />
     <Compile Include="PluginLoader.cs" />
     <Compile Include="RSTools.cs" />
@@ -88,6 +94,9 @@
   <ItemGroup>
     <EmbeddedResource Include="PictureForm.resx">
       <DependentUpon>PictureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PluginAPIOverlay.resx">
+      <DependentUpon>PluginAPIOverlay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StatsWindow.resx">
       <DependentUpon>StatsWindow.cs</DependentUpon>
