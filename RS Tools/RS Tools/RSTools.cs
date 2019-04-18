@@ -27,6 +27,9 @@ namespace RS_Tools
         //[STAThread]
         static void Main(string[] args)
         {
+            PluginAPIOverlay plg = new PluginAPIOverlay();
+            plg.Show();
+            plg.drawText("TEST");
             Display.eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
             Display.eng.SetVariable("debug_file", "nul");
             Console.WriteLine("RS Tools by gnmmarechal");

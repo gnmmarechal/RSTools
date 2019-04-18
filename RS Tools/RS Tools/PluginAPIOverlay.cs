@@ -27,5 +27,17 @@ namespace RS_Tools
             int initialStyle = Display.GetWindowLong(this.Handle, -20);
             Display.SetWindowLong(this.Handle, -20, initialStyle | 0x80000 | 0x20);
         }
+
+        public void drawText(String s)
+        {
+            Label test = new Label();
+            test.BackColor = Color.Red;
+            test.Name = "label_1";
+            test.Visible = true;
+            test.Show();
+            test.Text = s;
+            this.Controls.Add(test);
+            this.Refresh();
+        }
     }
 }
