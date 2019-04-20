@@ -48,54 +48,7 @@ namespace RS_Tools
 
             Thread overlayThread = new Thread(() =>
             {
-                overlayForm.Show();
-
-                while (runOverlay)
-                {
-                    //Thread.Sleep(500);
-                    lock (_lockObj2)
-                    {
-                        if (controlAddQueue.Count > 0)
-                        {
-                            Control element = controlAddQueue.Dequeue();
-                            //PluginAPI.WriteLine("Adding control to overlay: " + element.Name);
-
-                            foreach (Control c in overlayForm.Controls)
-                            {
-                                PropertyInfo[] controlInfo = c.GetType().GetProperties();
-                                foreach (PropertyInfo info in controlInfo)
-                                {
-                                    if (info.Name.Equals("Text"))
-                                    {
-                                        
-                                        if (info.GetValue(c).Equals(element.Text))
-                                        {
-                                            break;
-                                        }
-                                    }
-                                    else if (info.Name.Equals("Name"))
-                                    {
-                                        // Check if it is the same exact element aside from the text (TO-DO)
-                                        if (c.Name.Equals(info.GetValue(c)))
-                                        {
-                                            c.Text = element.Text;
-                                            //overlayForm.Controls.Remove(c);
-                                        }
-
-                                    }
-                                }
-                            }
-                            element.BringToFront();
-                            overlayForm.AddControl(element);
-                            overlayForm.Refresh();
-                        }
-                    }
-                }
-
-                if (!runOverlay)
-                {
-                    overlayForm.Close();
-                }
+                OverlayRun();
             });
 
             overlayThread.Start();
@@ -258,28 +211,7 @@ namespace RS_Tools
                 overlayForm = new PluginAPIOverlay();
                 overlayThread = new Thread(() =>
                 {
-                    overlayForm.Show();
-
-                    while (runOverlay)
-                    {
-                        Thread.Sleep(500);
-                        lock (_lockObj2)
-                        {
-                            if (controlAddQueue.Count > 0)
-                            {
-                                Control element = controlAddQueue.Dequeue();
-                                //PluginAPI.WriteLine("Adding control to overlay: " + element.Name);
-                                element.BringToFront();
-                                overlayForm.AddControl(element);
-                                overlayForm.Refresh();
-                            }
-                        }
-                    }
-
-                    if (!runOverlay)
-                    {
-                        overlayForm.Close();
-                    }
+                    OverlayRun();
                 });
                 loopCount++;
             }
@@ -320,6 +252,48 @@ namespace RS_Tools
             }
             
 
+        }
+
+        public static void OverlayRun()
+        {
+            overlayForm.Show();
+
+            while (runOverlay)
+            {
+                //Thread.Sleep(1000);
+                lock (_lockObj2)
+                {
+                    if (controlAddQueue.Count > 0)
+                    {
+                        Control element = controlAddQueue.Dequeue();
+                        //PluginAPI.WriteLine("Adding control to overlay: " + element.Name);
+
+                        int i = 0;
+                        bool foundControl = false;
+
+                        foreach (Control c in overlayForm.Controls)
+                        {
+                            if (c.Name.Equals(element.Name))
+                            {
+                                foundControl = true;
+                                c.Text = element.Text;
+                                break;
+                            }
+                        }
+                        if (!foundControl)
+                        {
+                            element.BringToFront();
+                            overlayForm.AddControl(element);
+                        }
+                        overlayForm.Refresh();
+                    }
+                }
+            }
+
+            if (!runOverlay)
+            {
+                overlayForm.Close();
+            }
         }
 
     }

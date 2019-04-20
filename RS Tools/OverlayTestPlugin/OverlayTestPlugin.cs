@@ -51,8 +51,10 @@ namespace OverlayTestPlugin
         {
             
             Control a = PluginAPIOverlay.NewLabel(100, 200, "Overlay Test : " + i++, "test", new Font("Arial", 16), Color.Transparent, Color.White);
+            Control b = PluginAPIOverlay.NewLabel(0, 0, "RS Tools", "test2", new Font("Times New Roman", 12), Color.Transparent, Color.Green);
 
             RSTools.AddOverlayControl(a);
+            RSTools.AddOverlayControl(b);
         }
 
         public void Setup(Config cfg)

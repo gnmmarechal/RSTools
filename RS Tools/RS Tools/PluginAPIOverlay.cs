@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -45,7 +47,7 @@ namespace RS_Tools
             {
                 BackColor = backColour,
                 ForeColor = foreColour,
-                Name = name,
+                Name = new StackFrame(1).GetMethod().DeclaringType.Name + "_" + name,
                 AutoSize = true,
                 Visible = true
             };
@@ -54,6 +56,7 @@ namespace RS_Tools
             a.Font = font;
             a.Top = y;
             a.Left = x;
+
             
 
             return a;
@@ -61,6 +64,7 @@ namespace RS_Tools
 
         public static Control NewLabelRandName(int x, int y, String text, Font font, Color backColour, Color foreColour)
         {
+            Thread.Sleep(20);
             return NewLabel(x, y, text, "label_" + (new Random()).Next(999999), font, backColour, foreColour);
         }
     }
