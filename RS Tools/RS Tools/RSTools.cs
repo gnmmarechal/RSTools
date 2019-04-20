@@ -268,7 +268,7 @@ namespace RS_Tools
                         Control element = controlAddQueue.Dequeue();
                         //PluginAPI.WriteLine("Adding control to overlay: " + element.Name);
 
-                        int i = 0;
+
                         bool foundControl = false;
 
                         foreach (Control c in overlayForm.Controls)
