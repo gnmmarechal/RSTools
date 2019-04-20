@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RS_Tools
@@ -142,6 +143,19 @@ namespace RS_Tools
                 return gameScreenBitmap;
             }
 
+        }
+
+        public static void RandWait(int minDelay, int maxDelay)
+        {
+            Random r = new Random();
+            Thread.Sleep(r.Next(minDelay, maxDelay));
+        }
+
+        public static void HumanWait(int minDelay)
+        {
+            Random e = new Random();
+            int maxDelay = e.Next(minDelay, minDelay + 5000);
+            RandWait(minDelay, maxDelay);
         }
 
     }

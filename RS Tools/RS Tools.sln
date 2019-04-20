@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmptyThroneRoomDivinationAl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmptyInventoryAlert", "EmptyInventoryAlert\EmptyInventoryAlert.csproj", "{9B3A73A0-C136-4585-95EC-82B14387E178}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverlayTestPlugin", "OverlayTestPlugin\OverlayTestPlugin.csproj", "{0EA9F829-BFAA-43A3-906E-A68E2A414F81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{9B3A73A0-C136-4585-95EC-82B14387E178}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B3A73A0-C136-4585-95EC-82B14387E178}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B3A73A0-C136-4585-95EC-82B14387E178}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EA9F829-BFAA-43A3-906E-A68E2A414F81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EA9F829-BFAA-43A3-906E-A68E2A414F81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EA9F829-BFAA-43A3-906E-A68E2A414F81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA9F829-BFAA-43A3-906E-A68E2A414F81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

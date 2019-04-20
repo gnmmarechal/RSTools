@@ -12,6 +12,9 @@ namespace RS_Tools
 {
     public partial class PluginAPIOverlay : Form
     {
+
+        public static Color transparent = Color.BlanchedAlmond;
+
         public PluginAPIOverlay()
         {
             InitializeComponent();
@@ -19,8 +22,9 @@ namespace RS_Tools
 
         private void PluginAPIOverlay_Load(object sender, EventArgs e)
         {
-            this.BackColor = Color.BlanchedAlmond;
-            this.TransparencyKey = Color.BlanchedAlmond;
+            CheckForIllegalCrossThreadCalls = false;
+            this.BackColor = transparent;
+            this.TransparencyKey = transparent;
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
 
@@ -28,16 +32,36 @@ namespace RS_Tools
             Display.SetWindowLong(this.Handle, -20, initialStyle | 0x80000 | 0x20);
         }
 
-        public void drawText(String s)
+        public string AddControl(Control c)
         {
-            Label test = new Label();
-            test.BackColor = Color.Red;
-            test.Name = "label_1";
-            test.Visible = true;
-            test.Show();
-            test.Text = s;
-            this.Controls.Add(test);
+            this.Controls.Add(c);
             this.Refresh();
+            return c.Name;
+        }
+
+        public static Control NewLabel(int x, int y, String text, String name, Font font, Color backColour, Color foreColour)
+        {
+            Label a = new Label
+            {
+                BackColor = backColour,
+                ForeColor = foreColour,
+                Name = name,
+                AutoSize = true,
+                Visible = true
+            };
+            a.Show();
+            a.Text = text;
+            a.Font = font;
+            a.Top = y;
+            a.Left = x;
+            
+
+            return a;
+        }
+
+        public static Control NewLabelRandName(int x, int y, String text, Font font, Color backColour, Color foreColour)
+        {
+            return NewLabel(x, y, text, "label_" + (new Random()).Next(999999), font, backColour, foreColour);
         }
     }
 }

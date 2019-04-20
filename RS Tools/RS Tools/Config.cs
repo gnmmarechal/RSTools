@@ -10,6 +10,7 @@ namespace RS_Tools
 {
     public class Config
     {
+        public PluginAPIOverlay overlayForm = null;
         public int[] gameResolution = { 1920, 1080 };
         public int xOffset = 0;
         public int yOffset = 0;

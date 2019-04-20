@@ -12,24 +12,27 @@ using Tesseract;
 using System.Text.RegularExpressions;
 using EyeOpen.Imaging;
 using System.IO;
+using System.Reflection;
 
 namespace RS_Tools
 {
-    class RSTools
+    public class RSTools
     {
 
 
         // Config values
         static bool isRunning = true;
         public static readonly object _lockObj = new object();
+        public static readonly object _lockObj2 = new object();
         public static readonly long _bootTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+        private static PluginAPIOverlay overlayForm = new PluginAPIOverlay();
+        private static Queue<Control> controlAddQueue = new Queue<Control>();
+        private static bool runOverlay = true;
 
         //[STAThread]
         static void Main(string[] args)
         {
-            PluginAPIOverlay plg = new PluginAPIOverlay();
-            plg.Show();
-            plg.drawText("TEST");
             Display.eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
             Display.eng.SetVariable("debug_file", "nul");
             Console.WriteLine("RS Tools by gnmmarechal");
@@ -43,6 +46,59 @@ namespace RS_Tools
             }
             cfg.SetBootTime(_bootTime);
 
+            Thread overlayThread = new Thread(() =>
+            {
+                overlayForm.Show();
+
+                while (runOverlay)
+                {
+                    //Thread.Sleep(500);
+                    lock (_lockObj2)
+                    {
+                        if (controlAddQueue.Count > 0)
+                        {
+                            Control element = controlAddQueue.Dequeue();
+                            //PluginAPI.WriteLine("Adding control to overlay: " + element.Name);
+
+                            foreach (Control c in overlayForm.Controls)
+                            {
+                                PropertyInfo[] controlInfo = c.GetType().GetProperties();
+                                foreach (PropertyInfo info in controlInfo)
+                                {
+                                    if (info.Name.Equals("Text"))
+                                    {
+                                        
+                                        if (info.GetValue(c).Equals(element.Text))
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    else if (info.Name.Equals("Name"))
+                                    {
+                                        // Check if it is the same exact element aside from the text (TO-DO)
+                                        if (c.Name.Equals(info.GetValue(c)))
+                                        {
+                                            c.Text = element.Text;
+                                            //overlayForm.Controls.Remove(c);
+                                        }
+
+                                    }
+                                }
+                            }
+                            element.BringToFront();
+                            overlayForm.AddControl(element);
+                            overlayForm.Refresh();
+                        }
+                    }
+                }
+
+                if (!runOverlay)
+                {
+                    overlayForm.Close();
+                }
+            });
+
+            overlayThread.Start();
             //Display.CropBitmap(Display.GetWholeDisplayBitmap(), 3703, 966, 3735-3703, 988-966).Save("lastInvSlot.bmp");
             Console.WriteLine("\n===Hit ENTER to load all plugins===");
             Console.ReadKey();
@@ -97,6 +153,10 @@ namespace RS_Tools
                 // Run Plugins
                 List<Thread> threadList = new List<Thread>();
                 bool runWorker = true;
+                runOverlay = true;
+
+                if (!overlayThread.IsAlive)
+                    overlayThread.Start();
                 foreach (RSToolsPluginBase plugin in PluginLoader.Plugins)
                 {
                     if (!disabledPluginList.Contains(plugin.PluginPackage))
@@ -173,6 +233,11 @@ namespace RS_Tools
                             PluginAPI.WriteLine(plugPackage);
                         }
                     }
+                    else if (command.Equals("quit") || command.Equals("exit"))
+                    {
+                        PluginAPI.WriteLine("Shutting down RSTools...");
+                        isRunning = false;
+                    }
                 } while (!String.IsNullOrWhiteSpace(input));
                 while (Console.KeyAvailable)
                 {
@@ -181,14 +246,41 @@ namespace RS_Tools
 
                 PluginAPI.WriteLine("Restarting plugin threads...\n");
                 runWorker = false;
+                runOverlay = false;
 
-
+                if (overlayThread.IsAlive)
+                    overlayThread.Join();
                 foreach (Thread t in threadList) // This might be unnecessary right now.
                 {
                     t.Join();
                 }
 
-                
+                overlayForm = new PluginAPIOverlay();
+                overlayThread = new Thread(() =>
+                {
+                    overlayForm.Show();
+
+                    while (runOverlay)
+                    {
+                        Thread.Sleep(500);
+                        lock (_lockObj2)
+                        {
+                            if (controlAddQueue.Count > 0)
+                            {
+                                Control element = controlAddQueue.Dequeue();
+                                //PluginAPI.WriteLine("Adding control to overlay: " + element.Name);
+                                element.BringToFront();
+                                overlayForm.AddControl(element);
+                                overlayForm.Refresh();
+                            }
+                        }
+                    }
+
+                    if (!runOverlay)
+                    {
+                        overlayForm.Close();
+                    }
+                });
                 loopCount++;
             }
 
@@ -217,6 +309,18 @@ namespace RS_Tools
             Application.Run(f);
         }
 
+        public static string AddOverlayControl(Control c)
+        {
+            lock (_lockObj2)
+            {
+                controlAddQueue.Enqueue(c);
+                
+                //overlayForm.AddControl(tempControl);
+                return c.Name;
+            }
+            
+
+        }
 
     }
 }

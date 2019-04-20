@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="ControlCloneEngine.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="MiniRSToolsPlugin.cs" />
     <Compile Include="PictureForm.cs">
