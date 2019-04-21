@@ -29,6 +29,7 @@ namespace RS_Tools
             this.TransparencyKey = transparent;
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
+            this.taskTimer.Interval = 500;
 
             int initialStyle = Display.GetWindowLong(this.Handle, -20);
             Display.SetWindowLong(this.Handle, -20, initialStyle | 0x80000 | 0x20);
@@ -72,10 +73,10 @@ namespace RS_Tools
         {
             lock (RSTools._lockObj2)
             {
-                if (RSTools.controlAddQueue.Count > 0)
+                while (RSTools.controlAddQueue.Count > 0)
                 {
                     Control element = RSTools.controlAddQueue.Dequeue();
-                    PluginAPI.WriteLine("Adding " + element.Name);
+                    //PluginAPI.WriteLine("Adding " + element.Name);
                     bool foundControl = false;
 
                     foreach (Control c in this.Controls)
@@ -99,6 +100,22 @@ namespace RS_Tools
                     }
                     this.Refresh();
                 }
+
+                while (RSTools.controlRemoveQueue.Count > 0)
+                {
+                    String curName = RSTools.controlRemoveQueue.Dequeue();
+                    foreach (Control c in this.Controls)
+                    {
+                        if (c.Name.Equals(curName))
+                        {
+                            this.Controls.Remove(c);
+                            break;
+                        }
+                    }
+                    this.Refresh();
+                }
+
+                
             }
         }
     }

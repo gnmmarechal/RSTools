@@ -33,7 +33,7 @@ namespace RS_Tools
         private static Bitmap gameScreen = null;
         private static bool runOverlay = true;
 
-        [STAThread]
+        //[STAThread]
         static void Main(string[] args)
         {
             
@@ -63,7 +63,9 @@ namespace RS_Tools
             Thread overlayThread = new Thread(() =>
            {
                overlayForm = new PluginAPIOverlay();
-
+               overlayForm.Top = cfg.xOffset;
+               overlayForm.Left = cfg.yOffset;
+               overlayForm.Size = new Size(cfg.gameResolution[0], cfg.gameResolution[1]);
                overlayForm.ShowDialog();
            });
 
@@ -272,69 +274,6 @@ namespace RS_Tools
             }
         }
 
-        public static void OverlayRun()
-        {
-         /*   //Color transparent = Color.BlanchedAlmond;
-            //Application.EnableVisualStyles();
-            
-
-            //overlayForm.Show();
-
-            while (runOverlay)
-            {
-                //Thread.Sleep(1000);
-                lock (_lockObj2)
-                {
-                    if (controlAddQueue.Count > 0)
-                    {
-                        Control element = controlAddQueue.Dequeue();
-                        PluginAPI.WriteLine("Adding control to overlay: " + element.Name);
-
-
-                        bool foundControl = false;
-
-                        foreach (Control c in overlayForm.Controls)
-                        {
-                            if (c.Name.Equals(element.Name))
-                            {
-                                // Only copies some elements, PluginAPI.CopyProperties can copy everything, but it causes blinking.
-                                foundControl = true;
-                                c.Text = element.Text;
-                                c.Top = element.Top;
-                                c.Left = element.Left;
-                                c.BackColor = element.BackColor;
-                                c.ForeColor = element.ForeColor;
-                                c.Font = element.Font;
-                            }
-                        }
-                        if (!foundControl)
-                        {
-                            element.BringToFront();
-                            //overlayForm.AddControl(element);
-                        }
-                        overlayForm.Refresh();
-                    }
-
-                    if (controlRemoveQueue.Count > 0)
-                    {
-                        String curName = controlRemoveQueue.Dequeue();
-                        foreach (Control c in overlayForm.Controls)
-                        {
-                            if (c.Name.Equals(curName))
-                            {
-                                overlayForm.Controls.Remove(c);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (!runOverlay)
-            {
-                overlayForm.Close();
-            }*/
-        }
 
     }
 }
