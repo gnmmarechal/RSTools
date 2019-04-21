@@ -16,6 +16,7 @@ using System.Reflection;
 
 namespace RS_Tools
 {
+    
     public class RSTools
     {
 
@@ -26,13 +27,16 @@ namespace RS_Tools
         public static readonly object _lockObj2 = new object();
         public static readonly long _bootTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-        private static PluginAPIOverlay overlayForm = new PluginAPIOverlay();
-        private static Queue<Control> controlAddQueue = new Queue<Control>();
+        private static PluginAPIOverlay overlayForm = null;
+        public static Queue<Control> controlAddQueue = new Queue<Control>();
+        public static Queue<string> controlRemoveQueue = new Queue<string>();
+        private static Bitmap gameScreen = null;
         private static bool runOverlay = true;
 
-        //[STAThread]
+        [STAThread]
         static void Main(string[] args)
         {
+            
             Display.eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
             Display.eng.SetVariable("debug_file", "nul");
             Console.WriteLine("RS Tools by gnmmarechal");
@@ -46,12 +50,27 @@ namespace RS_Tools
             }
             cfg.SetBootTime(_bootTime);
 
-            Thread overlayThread = new Thread(() =>
-            {
-                OverlayRun();
-            });
 
+
+            /*Thread screenshotThread = new Thread(() => 
+            {
+
+            });*/
+
+            //overlayThread.SetApartmentState(ApartmentState.STA);
+
+            
+            Thread overlayThread = new Thread(() =>
+           {
+               overlayForm = new PluginAPIOverlay();
+
+               overlayForm.ShowDialog();
+           });
+
+            overlayThread.SetApartmentState(ApartmentState.STA);
             overlayThread.Start();
+
+
             //Display.CropBitmap(Display.GetWholeDisplayBitmap(), 3703, 966, 3735-3703, 988-966).Save("lastInvSlot.bmp");
             Console.WriteLine("\n===Hit ENTER to load all plugins===");
             Console.ReadKey();
@@ -108,8 +127,6 @@ namespace RS_Tools
                 bool runWorker = true;
                 runOverlay = true;
 
-                if (!overlayThread.IsAlive)
-                    overlayThread.Start();
                 foreach (RSToolsPluginBase plugin in PluginLoader.Plugins)
                 {
                     if (!disabledPluginList.Contains(plugin.PluginPackage))
@@ -128,7 +145,7 @@ namespace RS_Tools
                                     Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
                                     Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
                                     completeScreenshot.Dispose();
-                                    ((RSToolsPlugin)plugin).Run((Bitmap)gameAreaScreenshot);
+                                    ((RSToolsPlugin)plugin).Run(gameAreaScreenshot);
                                     gameAreaScreenshot.Dispose();
                                     GC.Collect();
                                 }
@@ -201,18 +218,11 @@ namespace RS_Tools
                 runWorker = false;
                 runOverlay = false;
 
-                if (overlayThread.IsAlive)
-                    overlayThread.Join();
                 foreach (Thread t in threadList) // This might be unnecessary right now.
                 {
                     t.Join();
                 }
 
-                overlayForm = new PluginAPIOverlay();
-                overlayThread = new Thread(() =>
-                {
-                    OverlayRun();
-                });
                 loopCount++;
             }
 
@@ -254,9 +264,21 @@ namespace RS_Tools
 
         }
 
+        public static void RemoveOverlayControl(String name)
+        {
+            lock (_lockObj2)
+            {
+                controlRemoveQueue.Enqueue(name);
+            }
+        }
+
         public static void OverlayRun()
         {
-            overlayForm.Show();
+         /*   //Color transparent = Color.BlanchedAlmond;
+            //Application.EnableVisualStyles();
+            
+
+            //overlayForm.Show();
 
             while (runOverlay)
             {
@@ -266,7 +288,7 @@ namespace RS_Tools
                     if (controlAddQueue.Count > 0)
                     {
                         Control element = controlAddQueue.Dequeue();
-                        //PluginAPI.WriteLine("Adding control to overlay: " + element.Name);
+                        PluginAPI.WriteLine("Adding control to overlay: " + element.Name);
 
 
                         bool foundControl = false;
@@ -275,17 +297,35 @@ namespace RS_Tools
                         {
                             if (c.Name.Equals(element.Name))
                             {
+                                // Only copies some elements, PluginAPI.CopyProperties can copy everything, but it causes blinking.
                                 foundControl = true;
                                 c.Text = element.Text;
-                                break;
+                                c.Top = element.Top;
+                                c.Left = element.Left;
+                                c.BackColor = element.BackColor;
+                                c.ForeColor = element.ForeColor;
+                                c.Font = element.Font;
                             }
                         }
                         if (!foundControl)
                         {
                             element.BringToFront();
-                            overlayForm.AddControl(element);
+                            //overlayForm.AddControl(element);
                         }
                         overlayForm.Refresh();
+                    }
+
+                    if (controlRemoveQueue.Count > 0)
+                    {
+                        String curName = controlRemoveQueue.Dequeue();
+                        foreach (Control c in overlayForm.Controls)
+                        {
+                            if (c.Name.Equals(curName))
+                            {
+                                overlayForm.Controls.Remove(c);
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -293,7 +333,7 @@ namespace RS_Tools
             if (!runOverlay)
             {
                 overlayForm.Close();
-            }
+            }*/
         }
 
     }

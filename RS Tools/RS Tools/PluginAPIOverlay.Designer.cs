@@ -28,7 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.taskTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // taskTimer
+            // 
+            this.taskTimer.Enabled = true;
+            this.taskTimer.Interval = 500;
+            this.taskTimer.Tick += new System.EventHandler(this.taskTimer_Tick);
             // 
             // PluginAPIOverlay
             // 
@@ -43,5 +51,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer taskTimer;
     }
 }

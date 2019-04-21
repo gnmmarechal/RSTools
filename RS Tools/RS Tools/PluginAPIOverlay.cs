@@ -67,5 +67,39 @@ namespace RS_Tools
             Thread.Sleep(20);
             return NewLabel(x, y, text, "label_" + (new Random()).Next(999999), font, backColour, foreColour);
         }
+
+        private void taskTimer_Tick(object sender, EventArgs e)
+        {
+            lock (RSTools._lockObj2)
+            {
+                if (RSTools.controlAddQueue.Count > 0)
+                {
+                    Control element = RSTools.controlAddQueue.Dequeue();
+                    PluginAPI.WriteLine("Adding " + element.Name);
+                    bool foundControl = false;
+
+                    foreach (Control c in this.Controls)
+                    {
+                        if (c.Name.Equals(element.Name))
+                        {
+                            // Only copies some elements, PluginAPI.CopyProperties can copy everything, but it causes blinking.
+                            foundControl = true;
+                            c.Text = element.Text;
+                            c.Top = element.Top;
+                            c.Left = element.Left;
+                            c.BackColor = element.BackColor;
+                            c.ForeColor = element.ForeColor;
+                            c.Font = element.Font;
+                        }
+                    }
+                    if (!foundControl)
+                    {
+                        element.BringToFront();
+                        this.AddControl(element);
+                    }
+                    this.Refresh();
+                }
+            }
+        }
     }
 }
