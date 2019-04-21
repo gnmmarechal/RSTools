@@ -58,6 +58,7 @@ namespace EmptyInventoryAlert
                 if (similarity == 1.0)
                 {
                     PluginAPI.WriteLine("Your inventory is empty!");
+                    RSTools.OverlayStandardLog("Your inventory is empty!");
                     PluginAPI.alert();
 
                     Properties.Settings.Default.LastWarning = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();

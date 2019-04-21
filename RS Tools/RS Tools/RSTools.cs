@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using EyeOpen.Imaging;
 using System.IO;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace RS_Tools
 {
@@ -25,11 +26,15 @@ namespace RS_Tools
         static bool isRunning = true;
         public static readonly object _lockObj = new object();
         public static readonly object _lockObj2 = new object();
+        public static readonly object _lockObj3 = new object();
         public static readonly long _bootTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        public static bool _overlayIgnoreTopWindow = false;
 
         private static PluginAPIOverlay overlayForm = null;
         public static Queue<Control> controlAddQueue = new Queue<Control>();
         public static Queue<string> controlRemoveQueue = new Queue<string>();
+        public static Queue<string> overlayLogQueue = new Queue<string>();
+
         private static Bitmap gameScreen = null;
         private static bool runOverlay = true;
 
@@ -49,7 +54,7 @@ namespace RS_Tools
                 cfg = new Config(args[0]);
             }
             cfg.SetBootTime(_bootTime);
-
+            _overlayIgnoreTopWindow = cfg.overlayIgnoreTopWindow;
 
 
             /*Thread screenshotThread = new Thread(() => 
@@ -62,10 +67,12 @@ namespace RS_Tools
             
             Thread overlayThread = new Thread(() =>
            {
+               //Application.SetCompatibleTextRenderingDefault(false);
                overlayForm = new PluginAPIOverlay();
                overlayForm.Top = cfg.xOffset;
                overlayForm.Left = cfg.yOffset;
                overlayForm.Size = new Size(cfg.gameResolution[0], cfg.gameResolution[1]);
+               overlayForm.gameWindowTitle = cfg.gameWindowName;
                overlayForm.ShowDialog();
            });
 
@@ -253,6 +260,8 @@ namespace RS_Tools
             Application.Run(f);
         }
 
+
+        // Manage Overlay Form
         public static string AddOverlayControl(Control c)
         {
             lock (_lockObj2)
@@ -271,6 +280,26 @@ namespace RS_Tools
             lock (_lockObj2)
             {
                 controlRemoveQueue.Enqueue(name);
+            }
+        }
+
+        public static void OverlayStandardLog(String text)
+        {
+            string callingMethod = new StackFrame(1).GetMethod().DeclaringType.Name;
+            lock (_lockObj2)
+            {
+                overlayLogQueue.Enqueue("[" + callingMethod + "] : " + text);
+            }
+        }
+
+        public static void ClearLog()
+        {
+            lock (_lockObj2)
+            {
+                overlayForm.Invoke(new Action(() =>
+                {
+                    overlayForm.ClearLog();
+                }));
             }
         }
 

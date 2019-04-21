@@ -16,6 +16,7 @@ namespace RS_Tools
         public int yOffset = 0;
         private bool bootSetFlag = false;
         private long bootTime = 0L;
+        public bool overlayIgnoreTopWindow = false;
 
         public String gameWindowName = null;
 
@@ -36,7 +37,11 @@ namespace RS_Tools
                     reLine += splitLine[i] + " ";
                 }
                 reLine.Substring(reLine.Length - 1);
-                if (splitLine[0].Equals("GameWindow"))
+                if (splitLine[0].Equals("OverlayIgnoreTopWindow"))
+                {
+                    overlayIgnoreTopWindow = true;
+                }
+                else if (splitLine[0].Equals("GameWindow"))
                 {
                     gameWindowName = string.Join("", splitLine.Skip(1).ToArray());
                     PluginAPI.WriteLine("Game Window Name: " + gameWindowName);

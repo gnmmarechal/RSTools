@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -15,11 +16,23 @@ namespace RS_Tools
     public partial class PluginAPIOverlay : Form
     {
 
-        public static Color transparent = Color.BlanchedAlmond;
+        public static Color transparent = Color.Fuchsia;
+        private CustLabel logLabel = new CustLabel
+        {
+            Font = new Font("Arial", 14, FontStyle.Bold),
+            AutoSize = true,
+            ForeColor = Color.ForestGreen,
+            Top = 0,
+            Left = 0,
+            TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit
+        };
+        private int maxLogHeight = 5;
+        public string gameWindowTitle = "";
 
         public PluginAPIOverlay()
         {
             InitializeComponent();
+            //SetStyle(ControlStyles.Opaque, false);
         }
 
         private void PluginAPIOverlay_Load(object sender, EventArgs e)
@@ -30,6 +43,7 @@ namespace RS_Tools
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
             this.taskTimer.Interval = 500;
+            this.AddControl(logLabel);
 
             int initialStyle = Display.GetWindowLong(this.Handle, -20);
             Display.SetWindowLong(this.Handle, -20, initialStyle | 0x80000 | 0x20);
@@ -71,8 +85,30 @@ namespace RS_Tools
 
         private void taskTimer_Tick(object sender, EventArgs e)
         {
+            lock (RSTools._lockObj3)
+            {
+                IntPtr gameWindowHandle = Display.FindWindowByCaption(IntPtr.Zero, gameWindowTitle);
+                //StandardLog("RS " + gameWindowHandle);
+                IntPtr curHandle = Display.GetForegroundWindow();
+                //StandardLog("CURHAN " + curHandle);
+
+                if (curHandle == gameWindowHandle)
+                {
+                    //StandardLog("YAY");
+                    this.TopMost = true;
+                }
+                else if (!RSTools._overlayIgnoreTopWindow)
+                {
+                    this.SendToBack();
+                }
+
+            }
             lock (RSTools._lockObj2)
             {
+                while (RSTools.overlayLogQueue.Count > 0)
+                {
+                    StandardLog(RSTools.overlayLogQueue.Dequeue());
+                }
                 while (RSTools.controlAddQueue.Count > 0)
                 {
                     Control element = RSTools.controlAddQueue.Dequeue();
@@ -117,6 +153,30 @@ namespace RS_Tools
 
                 
             }
+        }
+
+        private void StandardLog(string text)
+        {
+            logLabel.Text += text;
+            int currentLogLines = logLabel.Text.Split('\n').Length;
+
+            if (currentLogLines > maxLogHeight)
+            {
+                logLabel.Text = RemoveFirstLine(logLabel.Text);
+            }
+
+            logLabel.Text += "\n";
+            this.Refresh();
+        }
+
+        private string RemoveFirstLine(string text)
+        {
+            return text.Substring(text.IndexOf('\n') + 1);
+        }
+
+        internal void ClearLog()
+        {
+            logLabel.Text = "";
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using Tesseract;
 using System.Drawing.Drawing2D;
 using EyeOpen.Imaging;
+using System.Diagnostics;
 
 namespace RS_Tools
 {
@@ -32,6 +33,16 @@ namespace RS_Tools
         public struct RECT
         {
             public int left, top, right, bottom;
+        }
+
+        public struct WINDOWPLACEMENT
+        {
+            public int length;
+            public int flags;
+            public int showCmd;
+            public System.Drawing.Point ptMinPosition;
+            public System.Drawing.Point ptMaxPosition;
+            public System.Drawing.Rectangle rcNormalPosition;
         }
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -64,11 +75,45 @@ namespace RS_Tools
         [DllImport("user32.dll")]
         public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpWindowName);
 
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        public static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr GetWindow(IntPtr hWnd, GetWindow_Cmd uCmd);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern int GetWindowThreadProcessId(IntPtr handle, out int processId);
+
+        [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
+        public static extern IntPtr FindWindowByCaption(IntPtr ZeroOnly, string lpWindowName);
+
+        public enum GetWindow_Cmd : uint
+        {
+            GW_HWNDFIRST = 0,
+            GW_HWNDLAST = 1,
+            GW_HWNDNEXT = 2,
+            GW_HWNDPREV = 3,
+            GW_OWNER = 4,
+            GW_CHILD = 5,
+            GW_ENABLEDPOPUP = 6
+        }
+
         public Display()
         {
             eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
         }
 
+        public static IntPtr FindWindow(string windowName)
+        {
+            var hWnd = FindWindow(windowName, null);
+            return hWnd;
+        }
 
         public static double getBitmapSimilarity(Bitmap a, Bitmap b)
         {
@@ -304,6 +349,23 @@ namespace RS_Tools
         public static string[] GetTextLines(Bitmap imgsource)
         {
             return GetText(imgsource).Split('\n');
+        }
+
+        public static string GetActiveWindowTitle()
+        {
+            return GetWindowTitle(GetForegroundWindow());
+        }
+
+        public static string GetWindowTitle(IntPtr handle)
+        {
+            const int nChars = 256;
+            StringBuilder Buff = new StringBuilder(nChars);
+
+            if (GetWindowText(handle, Buff, nChars) > 0)
+            {
+                return Buff.ToString();
+            }
+            return null;
         }
     }
 }
