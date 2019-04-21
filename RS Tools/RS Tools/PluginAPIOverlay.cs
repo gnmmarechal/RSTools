@@ -26,7 +26,9 @@ namespace RS_Tools
             Left = 0,
             TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit
         };
-        private int maxLogHeight = 5;
+        private int maxLogHeight = 5; // Change this so it isn't hardcoded
+        private Queue<long> logLineTimestamps = new Queue<long>();
+        private int logLineTime = 10000; // Change this so it isn't hardcoded
         public string gameWindowTitle = "";
 
         public PluginAPIOverlay()
@@ -42,7 +44,7 @@ namespace RS_Tools
             this.TransparencyKey = transparent;
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
-            this.taskTimer.Interval = 500;
+            this.taskTimer.Interval = 100;
             this.AddControl(logLabel);
 
             int initialStyle = Display.GetWindowLong(this.Handle, -20);
@@ -85,6 +87,15 @@ namespace RS_Tools
 
         private void taskTimer_Tick(object sender, EventArgs e)
         {
+            // Remove old log lines
+            if (logLineTimestamps.Count > 0)
+            {
+                if (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > logLineTimestamps.Peek() + logLineTime)
+                {
+                    logLineTimestamps.Dequeue();
+                    logLabel.Text = RemoveFirstLine(logLabel.Text);
+                }
+            }
             lock (RSTools._lockObj3)
             {
                 IntPtr gameWindowHandle = Display.FindWindowByCaption(IntPtr.Zero, gameWindowTitle);
@@ -158,13 +169,13 @@ namespace RS_Tools
         private void StandardLog(string text)
         {
             logLabel.Text += text;
+            logLineTimestamps.Enqueue(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()); // Timestamp of the current message
             int currentLogLines = logLabel.Text.Split('\n').Length;
-
             if (currentLogLines > maxLogHeight)
             {
                 logLabel.Text = RemoveFirstLine(logLabel.Text);
+                logLineTimestamps.Dequeue();
             }
-
             logLabel.Text += "\n";
             this.Refresh();
         }
@@ -177,6 +188,10 @@ namespace RS_Tools
         internal void ClearLog()
         {
             logLabel.Text = "";
+            while (logLineTimestamps.Count > 0)
+            {
+                logLineTimestamps.Dequeue();
+            }
         }
     }
 }
