@@ -18,7 +18,7 @@ namespace LobbyPause
         {
             get
             {
-                return "Lobby Pause";
+                return "Lobby Detection";
             }
         }
 
@@ -26,7 +26,7 @@ namespace LobbyPause
         {
             get
             {
-                return "Pauses RS Tools when the \"Play Now\" button is detected";
+                return "Notifies the user when the \"Play Now\" button is detected";
             }
         }
 
@@ -42,7 +42,7 @@ namespace LobbyPause
         {
             get
             {
-                return 1;
+                return 2;
             }
         }
 
@@ -53,9 +53,9 @@ namespace LobbyPause
             double similarity = Display.getBitmapSimilarity(playBitmap, ogPlayBitmap);
             if (similarity == 1)
             {
-                PluginAPI.WriteLine("Lobby detected. RS Tools paused.");
+                PluginAPI.WriteLine("Lobby detected.");
+                RSTools.OverlayStandardLog("Lobby detected!");
                 PluginAPI.alert();
-                Console.ReadKey();
             }
             ogPlayBitmap.Dispose();
             playBitmap.Dispose();

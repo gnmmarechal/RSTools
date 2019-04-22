@@ -14,6 +14,8 @@ namespace ChatBoxLootAlarm
         private static readonly string[] matchingTerms = {"shines", "loot", "receive", "eceive", "You receive", "ring of fortune", "ring of wealth", "beam" };
         private TextMatcher chatMatcher;
         private Display.POINT[] ChatScanner;
+        private long lastWarningTime = 0L;
+        private int warningInterval = 1000;
 
         public string PluginName
         {
@@ -43,7 +45,7 @@ namespace ChatBoxLootAlarm
         {
             get
             {
-                return 1;
+                return 2;
             }
         }
 
@@ -65,11 +67,12 @@ namespace ChatBoxLootAlarm
                 PluginAPI.WriteLine("EXCEPTION: " + e.Message);
             }
 
-            if (chatMatcher.certainMatch(txt))
+            if (chatMatcher.certainMatch(txt) && DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > lastWarningTime + warningInterval)
             {
                 PluginAPI.SuccessWriteLine("Text match found!");
+                RSTools.OverlayStandardLog("Task completion text match found!");
                 PluginAPI.alert();
-                Console.ReadKey();
+                lastWarningTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             }
 
             bigSc2.Dispose();
@@ -88,10 +91,6 @@ namespace ChatBoxLootAlarm
 
             String[] set = settings.Split(' ');
             ChatScanner = PluginAPI.GetRectangle(Convert.ToInt32(set[0]), Convert.ToInt32(set[1]), Convert.ToInt32(set[2]), Convert.ToInt32(set[3]));
-
-
-            ChatScanner[0] = PluginAPI.CorrectOffsets(ChatScanner[0], localConfig.xOffset, localConfig.yOffset);
-            ChatScanner[1] = PluginAPI.CorrectOffsets(ChatScanner[1], localConfig.xOffset, localConfig.yOffset);
 
             PluginAPI.WriteLine("Text matcher initialised.");
         }

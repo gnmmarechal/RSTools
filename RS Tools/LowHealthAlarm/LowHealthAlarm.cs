@@ -13,6 +13,8 @@ namespace LowHealthAlarm
         private Config localConfig;
         private Display.POINT[] HealthScanner;
         private int minHealth;
+        private long lastWarningTime = 0L;
+        private int warningInterval = 400;
 
         public string PluginName
         {
@@ -67,10 +69,12 @@ namespace LowHealthAlarm
                 }
             }
 
-            if (health[0] < minHealth && health[0] != -1)
+            if (health[0] < minHealth && health[0] != -1 && DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > lastWarningTime + warningInterval)
             {
                 PluginAPI.WarningWriteLine("Low health detected! (" + health[0] + "/" + health[1] + ")");
+                RSTools.OverlayStandardLog("Low health detected! (" + health[0] + "/" + health[1] + ")");
                 PluginAPI.alert();
+                lastWarningTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
             }
 

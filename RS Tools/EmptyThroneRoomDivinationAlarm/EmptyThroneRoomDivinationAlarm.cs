@@ -16,6 +16,8 @@ namespace EmptyThroneRoomDivinationAlarm
         private int minXp = 99999999;
 
         private String[] fileLocation = new string[6];
+        private long lastWarningTime = 0L;
+        private int warningInterval = 500;
 
         public string PluginName
         {
@@ -45,7 +47,7 @@ namespace EmptyThroneRoomDivinationAlarm
         {
             get
             {
-                return 2;
+                return 3;
             }
         }
 
@@ -100,12 +102,14 @@ namespace EmptyThroneRoomDivinationAlarm
             else if (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > Properties.Settings.Default.LastXpStringTime + 60000 && localConfig.GetBootTime() < Properties.Settings.Default.LastXpStringTime)
             {
                 PluginAPI.WriteLine("Warning: Last detected XP string over 60 seconds ago.");
+                RSTools.OverlayStandardLog("Warning: Last detected XP string over 60 seconds ago.");
             }
 
 
             if (xp < minXp)
             {
                 PluginAPI.WriteLine("XP gain below set level! XP:" + xp);
+                RSTools.OverlayStandardLog("XP gain below set level! XP:" + xp);
                 PluginAPI.alert();
             }
 
@@ -137,10 +141,12 @@ namespace EmptyThroneRoomDivinationAlarm
                     secondSimilarity = Math.Max(secondSimilarity, Display.getBitmapSimilarity(lastInvArea, selCrystal));
                 }
 
-                if (similarity != 1 && secondSimilarity == 1)
+                if (similarity != 1 && secondSimilarity == 1 && DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > lastWarningTime + warningInterval)
                 {
                     PluginAPI.WriteLine("Inventory finished!");
+                    RSTools.OverlayStandardLog("Inventory finished!");
                     PluginAPI.alert();
+                    lastWarningTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
                 }
             }
 
