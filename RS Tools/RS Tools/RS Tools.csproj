@@ -26,6 +26,8 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>7.2</LangVersion>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -138,6 +140,7 @@
       <DependentUpon>StatsWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="TextMatcher.cs" />
+    <Compile Include="Win32.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -17,7 +17,7 @@ using System.Diagnostics;
 
 namespace RS_Tools
 {
-    
+
     public class RSTools
     {
 
@@ -69,8 +69,9 @@ namespace RS_Tools
            {
                //Application.SetCompatibleTextRenderingDefault(false);
                overlayForm = new PluginAPIOverlay();
-               overlayForm.Top = cfg.xOffset;
-               overlayForm.Left = cfg.yOffset;
+               overlayForm.StartPosition = FormStartPosition.Manual;
+               overlayForm.Top = cfg.yOffset;
+               overlayForm.Left = cfg.xOffset;
                overlayForm.Size = new Size(cfg.gameResolution[0], cfg.gameResolution[1]);
                overlayForm.gameWindowTitle = cfg.gameWindowName;
                overlayForm.ShowDialog();
