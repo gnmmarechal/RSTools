@@ -84,25 +84,25 @@ namespace RS_Tools
 
         //
 
-        public static Display.POINT[] GetRectangle(int x1, int y1, int x2, int y2)
+        public static Win32.POINT[] GetRectangle(int x1, int y1, int x2, int y2)
         {
-            Display.POINT p1 = GetPoint(x1, y1);
-            Display.POINT p2 = GetPoint(x2, y2);
-            Display.POINT[] pArray = { p1, p2 };
+            Win32.POINT p1 = GetPoint(x1, y1);
+            Win32.POINT p2 = GetPoint(x2, y2);
+            Win32.POINT[] pArray = { p1, p2 };
 
             return pArray;
         }
-        public static Display.POINT GetPoint(int x, int y)
+        public static Win32.POINT GetPoint(int x, int y)
         {
-            Display.POINT p;
+            Win32.POINT p;
             p.X = x;
             p.Y = y;
             return p;
         }
 
-        public static Display.POINT CorrectOffsets(Display.POINT ogPoint, int xOffset, int yOffset)
+        public static Win32.POINT CorrectOffsets(Win32.POINT ogPoint, int xOffset, int yOffset)
         {
-            Display.POINT ogPoint2;
+            Win32.POINT ogPoint2;
             ogPoint2.X = ogPoint.X + xOffset;
             ogPoint2.Y = ogPoint.Y + yOffset;
             return ogPoint2;

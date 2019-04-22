@@ -13,7 +13,7 @@ namespace ChatBoxLootAlarm
         private Config localConfig;
         private static readonly string[] matchingTerms = {"shines", "loot", "receive", "eceive", "You receive", "ring of fortune", "ring of wealth", "beam" };
         private TextMatcher chatMatcher;
-        private Display.POINT[] ChatScanner;
+        private Win32.POINT[] ChatScanner;
         private long lastWarningTime = 0L;
         private int warningInterval = 1000;
 
@@ -70,7 +70,7 @@ namespace ChatBoxLootAlarm
             if (chatMatcher.certainMatch(txt) && DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > lastWarningTime + warningInterval)
             {
                 PluginAPI.SuccessWriteLine("Text match found!");
-                RSTools.OverlayStandardLog("Task completion text match found!");
+                RSTools.OverlayStandardLog("Loot text match found!");
                 PluginAPI.alert();
                 lastWarningTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             }

@@ -48,9 +48,9 @@ namespace RS_Tools
 
                     try
                     {
-                        Display.RECT rect;
-                        IntPtr handle = Display.FindWindow(null, gameWindowName);
-                        Display.GetWindowRect(handle, out rect);
+                        Win32.RECT rect;
+                        IntPtr handle = Win32.FindWindow(null, gameWindowName);
+                        Win32.GetWindowRect(handle, out rect);
                         gameResolution[0] = rect.right - rect.left;
                         gameResolution[1] = rect.bottom - rect.top;
                         if (gameResolution[0] == 0 || gameResolution[1] == 0)

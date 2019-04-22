@@ -47,8 +47,8 @@ namespace RS_Tools
             this.taskTimer.Interval = 100;
             this.AddControl(logLabel);
 
-            int initialStyle = Display.GetWindowLong(this.Handle, -20);
-            Display.SetWindowLong(this.Handle, -20, initialStyle | 0x80000 | 0x20);
+            int initialStyle = Win32.GetWindowLong(this.Handle, -20);
+            Win32.SetWindowLong(this.Handle, -20, initialStyle | 0x80000 | 0x20);
         }
 
         public string AddControl(Control c)
@@ -98,9 +98,9 @@ namespace RS_Tools
             }
             lock (RSTools._lockObj3)
             {
-                IntPtr gameWindowHandle = Display.FindWindowByCaption(IntPtr.Zero, gameWindowTitle);
+                IntPtr gameWindowHandle = Win32.FindWindowByCaption(IntPtr.Zero, gameWindowTitle);
                 //StandardLog("RS " + gameWindowHandle);
-                IntPtr curHandle = Display.GetForegroundWindow();
+                IntPtr curHandle = Win32.GetForegroundWindow();
                 //StandardLog("CURHAN " + curHandle);
 
                 if (curHandle == gameWindowHandle)

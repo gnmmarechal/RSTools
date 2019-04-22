@@ -11,7 +11,7 @@ namespace LobbyPause
     public class LobbyPause : RSToolsPlugin
     {
         private Config localConfig;
-        private Display.POINT[] PlayButtonArea;
+        private Win32.POINT[] PlayButtonArea;
         private String filePath = "";
 
         public string PluginName

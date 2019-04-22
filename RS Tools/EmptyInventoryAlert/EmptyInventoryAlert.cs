@@ -11,7 +11,7 @@ namespace EmptyInventoryAlert
     public class EmptyInventoryAlert : RSToolsPlugin
     {
         private Config localConfig;
-        private Display.POINT[] InventoryScanner;
+        private Win32.POINT[] InventoryScanner;
         private String filePath = "";
 
         public string PluginName

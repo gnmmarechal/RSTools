@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RS_Tools
 {
-    /*public class Win32
+    public class Win32
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
@@ -125,5 +125,5 @@ namespace RS_Tools
             }
             return null;
         }
-    }*/
+    }
 }

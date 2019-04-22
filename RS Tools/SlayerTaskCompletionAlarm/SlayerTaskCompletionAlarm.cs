@@ -13,7 +13,7 @@ namespace SlayerTaskCompletionAlarm
         private Config localConfig;
         private static string[] matchingTerms = { "tasks in a row", "Return to a Slayer Master"};
         private TextMatcher chatMatcher;
-        private Display.POINT[] ChatScanner;
+        private Win32.POINT[] ChatScanner;
         private long lastWarningTime = 0L;
         private int warningInterval = 1000;
 
@@ -72,7 +72,7 @@ namespace SlayerTaskCompletionAlarm
             if (chatMatcher.certainMatch(txt) && DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > lastWarningTime + warningInterval)
             {
                 PluginAPI.SuccessWriteLine("Text match found!");
-                RSTools.OverlayStandardLog("Loot text match found!");
+                RSTools.OverlayStandardLog("Task completion text match found!");
                 PluginAPI.alert();
                 lastWarningTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             }

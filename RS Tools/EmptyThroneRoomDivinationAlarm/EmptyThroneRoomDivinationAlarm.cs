@@ -12,7 +12,7 @@ namespace EmptyThroneRoomDivinationAlarm
     public class EmptyThroneRoomDivinationAlarm : RSToolsPlugin
     {
         private Config localConfig;
-        private Display.POINT[] ExpScanner, LastInvScanner;
+        private Win32.POINT[] ExpScanner, LastInvScanner;
         private int minXp = 99999999;
 
         private String[] fileLocation = new string[6];

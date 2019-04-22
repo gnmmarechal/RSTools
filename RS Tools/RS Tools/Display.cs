@@ -11,6 +11,7 @@ using Tesseract;
 using System.Drawing.Drawing2D;
 using EyeOpen.Imaging;
 using System.Diagnostics;
+using static RS_Tools.Win32;
 
 namespace RS_Tools
 {
@@ -18,101 +19,10 @@ namespace RS_Tools
     {
 
         public static TesseractEngine eng = null;
-        [StructLayout(LayoutKind.Sequential)]
-        public struct POINT
-        {
-            public int X;
-            public int Y;
-
-            public static implicit operator Point(POINT point)
-            {
-                return new Point(point.X, point.Y);
-            }
-        }
-
-        public struct RECT
-        {
-            public int left, top, right, bottom;
-        }
-
-        public struct WINDOWPLACEMENT
-        {
-            public int length;
-            public int flags;
-            public int showCmd;
-            public System.Drawing.Point ptMinPosition;
-            public System.Drawing.Point ptMaxPosition;
-            public System.Drawing.Rectangle rcNormalPosition;
-        }
-
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr GetDesktopWindow();
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr GetWindowDC(IntPtr window);
-        [DllImport("gdi32.dll", SetLastError = true)]
-        public static extern uint GetPixel(IntPtr dc, int x, int y);
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern int ReleaseDC(IntPtr window, IntPtr dc);
-        [DllImport("user32.dll")]
-        public static extern bool GetCursorPos(out POINT lpPoint);
-        [DllImport("User32.dll")]
-        static extern int SetForegroundWindow(IntPtr point);
-
-        [DllImport("User32.Dll")]
-        public static extern long SetCursorPos(int x, int y);
-        [DllImport("User32.Dll")]
-        public static extern bool ClientToScreen(IntPtr hWnd, ref POINT point);
-
-        [DllImport("User32.Dll")]
-        public static extern int SetWindowLong(IntPtr hWdn, int nIndex, int dwNewLong);
-
-        [DllImport("User32.Dll")]
-        public static extern int GetWindowLong(IntPtr hWdn, int nIndex);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-        [DllImport("user32.dll")]
-        public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpWindowName);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        public static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr GetWindow(IntPtr hWnd, GetWindow_Cmd uCmd);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern int GetWindowThreadProcessId(IntPtr handle, out int processId);
-
-        [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
-        public static extern IntPtr FindWindowByCaption(IntPtr ZeroOnly, string lpWindowName);
-
-        public enum GetWindow_Cmd : uint
-        {
-            GW_HWNDFIRST = 0,
-            GW_HWNDLAST = 1,
-            GW_HWNDNEXT = 2,
-            GW_HWNDPREV = 3,
-            GW_OWNER = 4,
-            GW_CHILD = 5,
-            GW_ENABLEDPOPUP = 6
-        }
 
         public Display()
         {
             eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
-        }
-
-        public static IntPtr FindWindow(string windowName)
-        {
-            var hWnd = FindWindow(windowName, null);
-            return hWnd;
         }
 
         public static double getBitmapSimilarity(Bitmap a, Bitmap b)
@@ -121,11 +31,7 @@ namespace RS_Tools
 
             return a1.CalculateSimilarity(b1);
         }
-        public static void moveMouse(POINT targetPoint)
-        {
-            //ClientToScreen(hWnd, ref targetPoint);
-            SetCursorPos(targetPoint.X, targetPoint.Y);
-        }
+
         public static Bitmap GetScreenBitmap()
         {
             Bitmap bmp = new Bitmap(SystemInformation.VirtualScreen.Width,

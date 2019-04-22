@@ -11,7 +11,7 @@ namespace LowHealthAlarm
     public class LowHealthAlarm : RSToolsPlugin
     {
         private Config localConfig;
-        private Display.POINT[] HealthScanner;
+        private Win32.POINT[] HealthScanner;
         private int minHealth;
         private long lastWarningTime = 0L;
         private int warningInterval = 400;
