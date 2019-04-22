@@ -18,6 +18,12 @@ namespace RS_Tools
         private long bootTime = 0L;
         public bool overlayIgnoreTopWindow = false;
 
+        private readonly int defaultLogSize = 5;
+        public int overlayLogSize = 5;
+
+        private readonly int defaultLogTime = 10000;
+        public int overlayLogTime = 10000;
+
         public String gameWindowName = null;
 
         private Dictionary<String, String> pluginSettings;
@@ -36,10 +42,38 @@ namespace RS_Tools
                 {
                     reLine += splitLine[i] + " ";
                 }
-                reLine.Substring(reLine.Length - 1);
-                if (splitLine[0].Equals("OverlayIgnoreTopWindow"))
+                if (reLine.Length > 0)
+                    reLine.Substring(reLine.Length - 1);
+                if (splitLine[0].Equals("OverlayLogMaxTime"))
+                {
+                    try
+                    {
+                        overlayLogTime = Convert.ToInt32(splitLine[1]);
+                        PluginAPI.WriteLine("Overlay Max Log Line Time (ms): " + overlayLogTime);
+                    }
+                    catch (Exception)
+                    {
+                        PluginAPI.WriteLine("Error reading overlay max log time. Using default size.");
+                        overlayLogTime = defaultLogTime;
+                    }
+                }
+                else if (splitLine[0].Equals("OverlayLogMaxSize"))
+                {
+                    try
+                    {
+                        overlayLogSize = Convert.ToInt32(splitLine[1]);
+                        PluginAPI.WriteLine("Overlay Max Log Height: " + overlayLogSize);
+                    }
+                    catch (Exception)
+                    {
+                        PluginAPI.WriteLine("Error reading overlay max log size. Using default size.");
+                        overlayLogSize = defaultLogSize;
+                    }
+                }
+                else if (splitLine[0].Equals("OverlayIgnoreTopWindow"))
                 {
                     overlayIgnoreTopWindow = true;
+                    PluginAPI.WriteLine("Ignoring top window for overlay!");
                 }
                 else if (splitLine[0].Equals("GameWindow"))
                 {

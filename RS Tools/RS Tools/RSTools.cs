@@ -74,6 +74,8 @@ namespace RS_Tools
                overlayForm.Left = cfg.xOffset;
                overlayForm.Size = new Size(cfg.gameResolution[0], cfg.gameResolution[1]);
                overlayForm.gameWindowTitle = cfg.gameWindowName;
+               overlayForm.maxLogHeight = cfg.overlayLogSize;
+               overlayForm.logTime = cfg.overlayLogTime;
                overlayForm.ShowDialog();
            });
 

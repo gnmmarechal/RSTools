@@ -26,9 +26,9 @@ namespace RS_Tools
             Left = 0,
             TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit
         };
-        private int maxLogHeight = 5; // Change this so it isn't hardcoded
+        public int maxLogHeight = 5; 
         private Queue<long> logLineTimestamps = new Queue<long>();
-        private int logLineTime = 10000; // Change this so it isn't hardcoded
+        public int logTime = 10000; // Change this so it isn't hardcoded
         public string gameWindowTitle = "";
 
         public PluginAPIOverlay()
@@ -90,7 +90,7 @@ namespace RS_Tools
             // Remove old log lines
             if (logLineTimestamps.Count > 0)
             {
-                if (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > logLineTimestamps.Peek() + logLineTime)
+                if (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() > logLineTimestamps.Peek() + logTime)
                 {
                     logLineTimestamps.Dequeue();
                     logLabel.Text = RemoveFirstLine(logLabel.Text);
@@ -193,5 +193,6 @@ namespace RS_Tools
                 logLineTimestamps.Dequeue();
             }
         }
+
     }
 }
