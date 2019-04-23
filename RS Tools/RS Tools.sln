@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmptyInventoryAlert", "Empt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverlayTestPlugin", "OverlayTestPlugin\OverlayTestPlugin.csproj", "{0EA9F829-BFAA-43A3-906E-A68E2A414F81}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSTExternalOCR", "RSTExternalOCR\RSTExternalOCR.csproj", "{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,18 @@ Global
 		{0EA9F829-BFAA-43A3-906E-A68E2A414F81}.Release|x64.Build.0 = Release|Any CPU
 		{0EA9F829-BFAA-43A3-906E-A68E2A414F81}.Release|x86.ActiveCfg = Release|Any CPU
 		{0EA9F829-BFAA-43A3-906E-A68E2A414F81}.Release|x86.Build.0 = Release|Any CPU
+		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Debug|x64.Build.0 = Debug|Any CPU
+		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Debug|x86.Build.0 = Debug|Any CPU
+		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Release|x64.ActiveCfg = Release|Any CPU
+		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Release|x64.Build.0 = Release|Any CPU
+		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Release|x86.ActiveCfg = Release|Any CPU
+		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

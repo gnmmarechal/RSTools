@@ -114,6 +114,7 @@
     </Compile>
     <Compile Include="Display.cs" />
     <Compile Include="IMiniRSToolsPlugin.cs" />
+    <Compile Include="Networking.cs" />
     <Compile Include="PictureForm.cs">
       <SubType>Form</SubType>
     </Compile>
