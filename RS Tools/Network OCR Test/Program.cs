@@ -23,9 +23,9 @@ namespace Network_OCR_Test
             byte[] imageBytes = ImageToByte(testBmp);
             byte[] imageSize = BitConverter.GetBytes(imageBytes.Length);
             byte[] bytesToSend = new byte[imageBytes.Length + imageSize.Length];
-
             imageSize.CopyTo(bytesToSend, 0);
             imageBytes.CopyTo(bytesToSend, imageSize.Length);
+            //File.WriteAllBytes("sentbytes.txt", bytesToSend);
             Console.WriteLine("MESSAGE SIZE: " + (bytesToSend.Length - imageBytes.Length));
             Console.WriteLine("IMAGE SIZE:" + imageBytes.Length);
             //Console.WriteLine("[{0}]", string.Join(", ", bytesToSend));
@@ -46,7 +46,7 @@ namespace Network_OCR_Test
         {
             using (var stream = new MemoryStream())
             {
-                img.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
                 return stream.ToArray();
             }
         }

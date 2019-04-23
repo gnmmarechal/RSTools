@@ -22,7 +22,6 @@ namespace RS_Tools
             byte[] imageBytes = ImageToByte(obj);
             byte[] imageSize = BitConverter.GetBytes(imageBytes.Length);
             byte[] bytesToSend = new byte[imageBytes.Length + imageSize.Length];
-
             imageSize.CopyTo(bytesToSend, 0);
             imageBytes.CopyTo(bytesToSend, imageSize.Length);
             //Console.WriteLine("MESSAGE SIZE: " + (bytesToSend.Length - imageBytes.Length));

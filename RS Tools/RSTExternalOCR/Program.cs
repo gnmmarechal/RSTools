@@ -86,18 +86,19 @@ namespace RSTExternalOCR
             buffer = new byte[imageSize];
             bytesRead = nwStream.Read(buffer, 0, imageSize);
 
-            Bitmap original = null;
+            //File.WriteAllBytes("bytesReceived.txt", buffer);
             //Console.WriteLine("[{0}]", string.Join(", ", buffer));
             var ms = new MemoryStream(buffer);
             ms.Seek(0, SeekOrigin.Begin);
-            original = new Bitmap(ms);
+            Bitmap original = new Bitmap(ms);
+            
 
-            Bitmap copy = new Bitmap(original.Width, original.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            /*Bitmap copy = new Bitmap(original.Width, original.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             using (Graphics graphics = Graphics.FromImage(copy))
             {
                 graphics.DrawImage(original, new Point(0, 0));
             }
-            ms.Close();
+            ms.Close();*/
 
             //Bitmap bigSc = Display.ResizeImage(copy, copy.Width * 5, copy.Height * 5);
 
@@ -107,13 +108,12 @@ namespace RSTExternalOCR
 
             //---write back the text to the client---
             //Console.WriteLine("Sending back : " + dataReceived);
-            string reply = "";
-            reply = GetText(copy);
+            string reply = GetText(original);
             
             Console.WriteLine(reply);
             buffer = Encoding.ASCII.GetBytes(reply);
             nwStream.Write(buffer, 0, buffer.Length);
-            copy.Dispose();
+            //copy.Dispose();
             original.Dispose();
             //client.Close();
         }
