@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RS_Tools
 {
-    public interface MiniRSToolsPlugin : RSToolsPluginBase
+    public interface IRSToolsPlugin : IRSToolsPluginBase
     {
-        void Run();
+        void Run(in Bitmap gameImage);
     }
 }

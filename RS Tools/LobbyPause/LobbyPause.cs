@@ -8,7 +8,7 @@ using RS_Tools;
 
 namespace LobbyPause
 {
-    public class LobbyPause : RSToolsPlugin
+    public class LobbyPause : IRSToolsPlugin
     {
         private Config localConfig;
         private Win32.POINT[] PlayButtonArea;

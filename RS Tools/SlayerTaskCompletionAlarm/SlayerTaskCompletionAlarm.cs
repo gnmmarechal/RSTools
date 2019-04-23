@@ -8,7 +8,7 @@ using RS_Tools;
 
 namespace SlayerTaskCompletionAlarm
 {
-    public class SlayerTaskCompletionAlarm : RSToolsPlugin
+    public class SlayerTaskCompletionAlarm : IRSToolsPlugin
     {
         private Config localConfig;
         private static string[] matchingTerms = { "tasks in a row", "Return to a Slayer Master"};

@@ -8,7 +8,7 @@ using RS_Tools;
 
 namespace LowHealthAlarm
 {
-    public class LowHealthAlarm : RSToolsPlugin
+    public class LowHealthAlarm : IRSToolsPlugin
     {
         private Config localConfig;
         private Win32.POINT[] HealthScanner;

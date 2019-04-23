@@ -9,7 +9,7 @@ using RS_Tools;
 
 namespace OverlayTestPlugin
 {
-    public class OverlayTestPlugin : MiniRSToolsPlugin
+    public class OverlayTestPlugin : IMiniRSToolsPlugin
     {
         private Config localConfig;
         private int i = 0;

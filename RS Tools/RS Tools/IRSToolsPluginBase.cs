@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RS_Tools
 {
-    public interface RSToolsPluginBase
+    public interface IRSToolsPluginBase
     {
         string PluginName { get; }
         string PluginPackage { get; }

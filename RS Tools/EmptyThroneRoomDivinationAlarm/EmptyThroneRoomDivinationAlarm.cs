@@ -9,7 +9,7 @@ using RS_Tools;
 
 namespace EmptyThroneRoomDivinationAlarm
 {
-    public class EmptyThroneRoomDivinationAlarm : RSToolsPlugin
+    public class EmptyThroneRoomDivinationAlarm : IRSToolsPlugin
     {
         private Config localConfig;
         private Win32.POINT[] ExpScanner, LastInvScanner;

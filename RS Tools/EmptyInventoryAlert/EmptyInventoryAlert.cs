@@ -8,7 +8,7 @@ using RS_Tools;
 
 namespace EmptyInventoryAlert
 {
-    public class EmptyInventoryAlert : RSToolsPlugin
+    public class EmptyInventoryAlert : IRSToolsPlugin
     {
         private Config localConfig;
         private Win32.POINT[] InventoryScanner;

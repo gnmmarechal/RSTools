@@ -8,7 +8,7 @@ using RS_Tools;
 
 namespace ChatBoxLootAlarm
 {
-    public class ChatBoxLootAlarm : RSToolsPlugin
+    public class ChatBoxLootAlarm : IRSToolsPlugin
     {
         private Config localConfig;
         private static readonly string[] matchingTerms = {"shines", "loot", "receive", "eceive", "You receive", "ring of fortune", "ring of wealth", "beam" };

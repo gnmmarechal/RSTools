@@ -102,7 +102,7 @@ namespace RS_Tools
                 loader = new PluginLoader();
                 loader.loadPlugins();
                 PluginAPI.WriteLine("Loaded plugins:");
-                foreach (RSToolsPluginBase plugin in PluginLoader.Plugins)
+                foreach (IRSToolsPluginBase plugin in PluginLoader.Plugins)
                 {
                     string pluginInfo = plugin.PluginName + " | " + plugin.PluginPackage + " | v" + plugin.PluginVersion;
                     PluginAPI.WriteLine(pluginInfo);
@@ -118,7 +118,7 @@ namespace RS_Tools
             }
 
             PluginAPI.WriteLine("Plugin setup started.");
-            foreach (RSToolsPluginBase plugin in PluginLoader.Plugins)
+            foreach (IRSToolsPluginBase plugin in PluginLoader.Plugins)
             {
                 plugin.Setup(cfg);
             }
@@ -139,7 +139,7 @@ namespace RS_Tools
                 bool runWorker = true;
                 runOverlay = true;
 
-                foreach (RSToolsPluginBase plugin in PluginLoader.Plugins)
+                foreach (IRSToolsPluginBase plugin in PluginLoader.Plugins)
                 {
                     if (!disabledPluginList.Contains(plugin.PluginPackage))
                     {
@@ -148,7 +148,7 @@ namespace RS_Tools
 
                         // Here add a check to see if a plugin is both ("hybrid") and check flags to see what to run it as
 
-                        if (plugin is RSToolsPlugin)
+                        if (plugin is IRSToolsPlugin)
                         {
                             t = new Thread(() =>
                             {
@@ -157,20 +157,20 @@ namespace RS_Tools
                                     Bitmap completeScreenshot = Display.GetWholeDisplayBitmap();
                                     Bitmap gameAreaScreenshot = Display.CropBitmap(completeScreenshot, cfg.xOffset, cfg.yOffset, cfg.gameResolution[0], cfg.gameResolution[1]);
                                     completeScreenshot.Dispose();
-                                    ((RSToolsPlugin)plugin).Run(gameAreaScreenshot);
+                                    ((IRSToolsPlugin)plugin).Run(gameAreaScreenshot);
                                     gameAreaScreenshot.Dispose();
                                     GC.Collect();
                                 }
 
                             });
                         }
-                        else if (plugin is MiniRSToolsPlugin) // Plugins that don't require a game bitmap
+                        else if (plugin is IMiniRSToolsPlugin) // Plugins that don't require a game bitmap
                         {
                             t = new Thread(() =>
                             {
                                 while (runWorker)
                                 {
-                                    ((MiniRSToolsPlugin)plugin).Run();
+                                    ((IMiniRSToolsPlugin)plugin).Run();
                                     GC.Collect();
                                 }
                             });
