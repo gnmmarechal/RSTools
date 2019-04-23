@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverlayTestPlugin", "Overla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSTExternalOCR", "RSTExternalOCR\RSTExternalOCR.csproj", "{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Network OCR Test", "Network OCR Test\Network OCR Test.csproj", "{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,18 @@ Global
 		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Release|x64.Build.0 = Release|Any CPU
 		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Release|x86.ActiveCfg = Release|Any CPU
 		{96BE188A-7CD0-4F3E-A9AF-4CD02267C7B7}.Release|x86.Build.0 = Release|Any CPU
+		{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}.Debug|x64.Build.0 = Debug|Any CPU
+		{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}.Debug|x86.Build.0 = Debug|Any CPU
+		{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}.Release|x64.ActiveCfg = Release|Any CPU
+		{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}.Release|x64.Build.0 = Release|Any CPU
+		{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}.Release|x86.ActiveCfg = Release|Any CPU
+		{C45AB9A1-9D9A-47FA-A524-1D604960FC6A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
