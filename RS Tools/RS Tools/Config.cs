@@ -26,6 +26,10 @@ namespace RS_Tools
 
         public String gameWindowName = null;
 
+        public bool useNetworkOCR = false;
+        public string networkOCRIP = "";
+        public int networkOCRPort = 0;
+
         private Dictionary<String, String> pluginSettings;
 
         public Config(String fileName)
@@ -44,7 +48,22 @@ namespace RS_Tools
                 }
                 if (reLine.Length > 0)
                     reLine.Substring(reLine.Length - 1);
-                if (splitLine[0].Equals("OverlayLogMaxTime"))
+                if (splitLine[0].Equals("UseNetworkOCR"))
+                {
+                    try
+                    {
+                        networkOCRIP = splitLine[1];
+                        networkOCRPort = Convert.ToInt32(splitLine[2]);
+                        PluginAPI.WriteLine("Network OCR Enabled: " + networkOCRIP + ":" + networkOCRPort);
+                        useNetworkOCR = true;
+                    }
+                    catch(Exception)
+                    {
+                        PluginAPI.WriteLine("Error reading Network OCR settings. Using integrated OCR.");
+                        useNetworkOCR = false;
+                    }
+                }
+                else if (splitLine[0].Equals("OverlayLogMaxTime"))
                 {
                     try
                     {

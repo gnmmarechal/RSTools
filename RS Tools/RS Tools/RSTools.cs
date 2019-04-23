@@ -41,13 +41,24 @@ namespace RS_Tools
         //[STAThread]
         static void Main(string[] args)
         {
-            
-            Display.eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
-            Display.eng.SetVariable("debug_file", "nul");
+
             Console.WriteLine("RS Tools by gnmmarechal");
-            Console.WriteLine("\nTesseract Version: " + Display.eng.Version);
 
             Config cfg = new Config("config.cfg");
+
+            if (cfg.useNetworkOCR)
+            {
+                Display.useNetworkOCR = true;
+                Display.networkOCRIP = cfg.networkOCRIP;
+                Display.networkOCRPort = cfg.networkOCRPort;
+            }
+            else
+            {
+                Display.eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
+                Display.eng.SetVariable("debug_file", "nul");
+                Console.WriteLine("\nTesseract Version: " + Display.eng.Version);
+            }
+            //Display.eng.SetVariable("classify_enable_learning", "false");
 
             if (args.Length == 1)
             {

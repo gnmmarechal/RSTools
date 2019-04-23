@@ -19,6 +19,9 @@ namespace RS_Tools
     {
 
         public static TesseractEngine eng = null;
+        internal static bool useNetworkOCR = false;
+        internal static string networkOCRIP;
+        internal static int networkOCRPort;
 
         public Display()
         {
@@ -233,6 +236,9 @@ namespace RS_Tools
 
         public static string GetText(Bitmap imgsource)
         {
+            if (useNetworkOCR)
+                return Networking.NetworkOCR(imgsource, networkOCRIP, networkOCRPort);
+
             var ocrtext = string.Empty;
             using (var img = PixConverter.ToPix(imgsource))
             {

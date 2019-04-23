@@ -13,24 +13,45 @@ namespace RS_Tools
 {
     public class Networking
     {
-        public static void SendImage(Image obj)
+        public static string NetworkOCR(Bitmap obj, string ip, int port)
         {
-            TcpListener listener = new TcpListener(49153);
-            listener.Start();
-            TcpClient client = listener.AcceptTcpClient();
-            NetworkStream stream = client.GetStream();
 
-            Image image = obj;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                image.Save(ms, ImageFormat.Bmp);
-                byte[] imageBuffer = ms.GetBuffer();
-                stream.Write(imageBuffer, 0, (int)ms.Length);
-            }
+            //---create a TCPClient object at the IP and port no.---
+            TcpClient client = new TcpClient(ip, port);
+            NetworkStream nwStream = client.GetStream();
+            byte[] imageBytes = ImageToByte(obj);
+            byte[] imageSize = BitConverter.GetBytes(imageBytes.Length);
+            byte[] bytesToSend = new byte[imageBytes.Length + imageSize.Length];
 
-            stream.Close(500);
+            imageSize.CopyTo(bytesToSend, 0);
+            imageBytes.CopyTo(bytesToSend, imageSize.Length);
+            //Console.WriteLine("MESSAGE SIZE: " + (bytesToSend.Length - imageBytes.Length));
+            //Console.WriteLine("IMAGE SIZE:" + imageBytes.Length);
+            //Console.WriteLine("[{0}]", string.Join(", ", bytesToSend));
+
+            //---send the text---
+            //Console.WriteLine("Sending bmp...");
+            nwStream.Write(bytesToSend, 0, bytesToSend.Length);
+
+            //---read back the text---
+            byte[] bytesToRead = new byte[client.ReceiveBufferSize];
+            int bytesRead = nwStream.Read(bytesToRead, 0, client.ReceiveBufferSize);
+            string text = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
+            Console.WriteLine("Received : " + text);
+            //Console.ReadLine();
             client.Close();
-            listener.Stop();
+
+            return text;
+        }
+
+
+        public static byte[] ImageToByte(Image img)
+        {
+            using (var stream = new MemoryStream())
+            {
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+                return stream.ToArray();
+            }
         }
     }
 }
