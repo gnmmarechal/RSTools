@@ -12,6 +12,7 @@ using System.Drawing.Drawing2D;
 using EyeOpen.Imaging;
 using System.Diagnostics;
 using static RS_Tools.Win32;
+using System.Net.Sockets;
 
 namespace RS_Tools
 {
@@ -26,6 +27,7 @@ namespace RS_Tools
         public Display()
         {
             eng = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
+            eng.SetVariable("debug_file", "nul");
         }
 
         public static double getBitmapSimilarity(Bitmap a, Bitmap b)
@@ -236,8 +238,20 @@ namespace RS_Tools
 
         public static string GetText(Bitmap imgsource)
         {
-            if (useNetworkOCR)
-                return Networking.NetworkOCR(imgsource, networkOCRIP, networkOCRPort);
+            try
+            {
+                if (useNetworkOCR)
+                    return Networking.NetworkOCR(imgsource, networkOCRIP, networkOCRPort);
+            }
+            catch (SocketException)
+            {
+                PluginAPI.WriteLine("Remote OCR server error. Defaulting to the local engine.");
+                if (eng == null)
+                {
+                    PluginAPI.WriteLine("Local OCR engine is null!");
+                    throw new Exception("OCR engine is null!");
+                }
+            }
 
             var ocrtext = string.Empty;
             using (var img = PixConverter.ToPix(imgsource))
