@@ -35,11 +35,19 @@ namespace RSTExternalOCR
             {
                 //---incoming client connected---
                 TcpClient client = listener.AcceptTcpClient();
+                Console.WriteLine("Client connected!");
 
                 // Start client handler thread
                 new Thread(() =>
                 {
-                    ClientHandler(client);
+                    try
+                    {
+                        ClientHandler(client);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("EXCEPTION: " + e.Message);
+                    }
                 }).Start();
 
                 //client.Close();

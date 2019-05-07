@@ -36,7 +36,7 @@ namespace RS_Tools
             byte[] bytesToRead = new byte[client.ReceiveBufferSize];
             int bytesRead = nwStream.Read(bytesToRead, 0, client.ReceiveBufferSize);
             string text = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
-            Console.WriteLine("Received : " + text);
+            //Console.WriteLine("Received : " + text);
             //Console.ReadLine();
             client.Close();
 
